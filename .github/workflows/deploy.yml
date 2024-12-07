@@ -26,7 +26,7 @@ jobs:
 
       # 4. Сборка Angular приложения
       - name: Build Angular App
-        run: npm run build -- --prod
+        run: npm run build
 
       # 5. Деплой на Firebase Hosting
       - name: Deploy to Firebase Hosting
