@@ -1,0 +1,35 @@
+name: Deploy Angular App to Firebase Hosting
+
+on:
+  push:
+    branches:
+      - main  # Триггер на изменения в ветке main (измените при необходимости)
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout кода из репозитория
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # 2. Установка Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20  # Версия Node.js, используемая в проекте
+
+      # 3. Установка зависимостей
+      - name: Install Dependencies
+        run: npm install
+
+      # 4. Сборка Angular приложения
+      - name: Build Angular App
+        run: npm run build -- --prod
+
+      # 5. Деплой на Firebase Hosting
+      - name: Deploy to Firebase Hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: firebase deploy --only hosting
