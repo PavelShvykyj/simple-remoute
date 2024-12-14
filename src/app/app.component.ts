@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet, IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
+import { IonApp, IonRouterOutlet, IonRefresher, IonRefresherContent, IonContent } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   standalone: true,
-  imports: [IonApp, IonRouterOutlet, IonRefresher, IonRefresherContent],
+  imports: [IonContent, IonApp, IonRouterOutlet, IonRefresher, IonRefresherContent],
 })
 export class AppComponent {
   handleRefresh(event: any) {
