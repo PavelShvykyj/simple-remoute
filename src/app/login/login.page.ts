@@ -122,4 +122,10 @@ export class LoginPage  {
   customCounterFormatter(inputLength: number, maxLength: number) {
     return `${inputLength} characters are typed`;
   }
+
+  onPasswordChange(isValid: boolean | null) {
+    if (isValid) {
+      this.onLoggin();
+    }
+  }
 }

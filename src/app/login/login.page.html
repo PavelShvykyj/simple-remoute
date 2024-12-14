@@ -14,6 +14,7 @@
       <ion-col offset-lg="4" size-lg="4" size-sm="10" offset-sm="1">
           <div class="container">
             <ion-input
+              tabindex="1"
               appAutoselect
               #focusOnEnter
               color="medium"
@@ -31,6 +32,8 @@
             </ion-input>
 
             <ion-input
+              tabindex="2"
+              (ionChange)="onPasswordChange(email.valid && password.valid)"
               appAutoselect
               color="medium"
               label="Password"
@@ -57,7 +60,7 @@
             <ion-spinner name="dots" slot="start"></ion-spinner>
             <ion-label>in progress</ion-label>
           }
-          <ion-button [disabled]="!email.valid || !password.valid"  class="mr-14" size="default" slot="end"  color="medium" (click)="onLoggin()">Submit</ion-button>
+          <ion-button tabindex="3" [disabled]="!email.valid || !password.valid"  class="mr-14" size="default" slot="end"  color="medium" (click)="onLoggin()">Submit</ion-button>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -81,8 +84,8 @@
 <ion-footer>
   <ion-toolbar color='light'>
     <ion-buttons slot="end">
-      <ion-button class="text-accent" size='large' expand='block' color='danger' routerLink="/home/block-app"> <ion-icon name="close-outline"></ion-icon></ion-button>
-      <ion-button [disabled]="!email.valid || !password.valid"  (click)="onLoggin()" class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
+      <ion-button class="text-accent" size='large' expand='block' color='danger'> <ion-icon name="close-outline"></ion-icon></ion-button>
+      <ion-button tabindex="3" [disabled]="!email.valid || !password.valid"  (click)="onLoggin()" class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
