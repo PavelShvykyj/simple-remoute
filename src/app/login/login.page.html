@@ -14,6 +14,7 @@
       <ion-col offset-lg="4" size-lg="4" size-sm="10" offset-sm="1">
           <div class="container">
             <ion-input
+             enterkeyhint="next"
               tabindex="1"
               appAutoselect
               #focusOnEnter
@@ -32,6 +33,7 @@
             </ion-input>
 
             <ion-input
+              enterkeyhint="enter"
               tabindex="2"
               (ionChange)="onPasswordChange(email.valid && password.valid)"
               appAutoselect
