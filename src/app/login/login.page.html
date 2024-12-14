@@ -1,0 +1,88 @@
+
+<ion-content [fullscreen]="true">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title size="large">Please login</ion-title>
+      <ion-avatar class="ion-margin-start ion-margin-end" slot="start">
+        <img alt="Logo" src="assets/logo.png" />
+      </ion-avatar>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-row >
+      <ion-col offset-lg="4" size-lg="4" size-sm="10" offset-sm="1">
+          <div class="container">
+            <ion-input
+              appAutoselect
+              #focusOnEnter
+              color="medium"
+              label="Email"
+              label-placement="floating"
+              fill="outline"
+              type="email"
+              helperText="Enter a valid email"
+              errorText="Invalid email"
+              [(ngModel)] = "credentionals.email"
+              name="email"
+              email
+              [required]="true"
+              #email="ngModel">
+            </ion-input>
+
+            <ion-input
+              appAutoselect
+              color="medium"
+              label="Password"
+              label-placement="floating"
+              fill="outline"
+              [counter]="true"
+              maxlength="20"
+              [counterFormatter]="customCounterFormatter"
+              type="password"
+              errorText="Invalid pass"
+              [(ngModel)] = "credentionals.password"
+              name="password"
+              [required]="true"
+              minlength="4"
+              #password = "ngModel">
+            </ion-input>
+          </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-justify-content-end" offset-lg="4" size-lg="4" size-sm="10" offset-sm="1">
+        <ion-item>
+          @if(auth.LoggedStatus() === "pending") {
+            <ion-spinner name="dots" slot="start"></ion-spinner>
+            <ion-label>in progress</ion-label>
+          }
+          <ion-button [disabled]="!email.valid || !password.valid"  class="mr-14" size="default" slot="end"  color="medium" (click)="onLoggin()">Submit</ion-button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row >
+      <ion-col offset-lg="4" size-lg="4" size-sm="10" offset-sm="1">
+        <ion-label
+          [ngClass]="{'clickable': email.valid}"
+          class="ion-margin-start"
+          (click)="OnForgotPassword(email.valid)"
+          [color]="email.valid ? 'tertiary' : 'medium'">
+          forgot password
+        </ion-label>
+        @if(!email.valid) {
+          <ion-note ion-margin-start>(enter a valid email)</ion-note>
+        }
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color='light'>
+    <ion-buttons slot="end">
+      <ion-button class="text-accent" size='large' expand='block' color='danger' routerLink="/home/block-app"> <ion-icon name="close-outline"></ion-icon></ion-button>
+      <ion-button [disabled]="!email.valid || !password.valid"  (click)="onLoggin()" class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

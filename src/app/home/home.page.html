@@ -1,20 +1,19 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-tabs >
+  <ion-tab-bar slot="bottom" color="light">
+    <ion-tab-button tab="price">
+      <ion-icon  [name]="!(auth.isLoggedin()) ? 'lock-closed-outline' : 'bar-chart-outline' "></ion-icon>
+      <ion-label>Price list</ion-label>
+    </ion-tab-button>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
+    <ion-tab-button tab="visits">
+      <ion-icon  [name]="!(auth.isLoggedin()) ? 'lock-closed-outline' : 'apps-outline' "></ion-icon>
+      <ion-label>Visits</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button (click)="onLogout()">
+      <ion-icon  [name]="!(auth.isLoggedin()) ? 'lock-closed-outline' : 'lock-open-outline' "></ion-icon>
+      <ion-label>Log out</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
