@@ -1,0 +1,14 @@
+.primary-tint-toolbar {
+  --background: var(--ion-color-primary-tint);
+  --color: var(--ion-color-primary-contrast);
+}
+
+.small-avatar{
+  display: flex;
+  align-items: center;
+  &__logo {
+    max-width: 70%;
+    max-height: 70%;
+    --border-radius: 0px;
+  }
+}

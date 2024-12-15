@@ -128,4 +128,11 @@ export class LoginPage  {
       this.onLoggin();
     }
   }
+
+  ionViewWillLeave() {
+    this.credentionals = {
+      email: "",
+      password: ""
+    }
+  }
 }
