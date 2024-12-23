@@ -1,4 +1,4 @@
-import { Component, OnInit, WritableSignal, effect, inject, signal, viewChild } from '@angular/core';
+import { Component, effect, inject, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -13,26 +13,14 @@ import {
   IonTitle,
   IonContent,
   IonLabel,
-  IonList,
   IonItem,
   IonButtons,
   IonButton,
-  IonSplitPane,
   IonAvatar,
   IonNote,
-  IonText,
   IonSpinner,
-  IonMenu,
   IonIcon,
-  IonListHeader,
   IonFooter,
-  IonModal,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonCheckbox,
-  IonAlert,
   IonGrid,
   IonRow,
   IonCol,
