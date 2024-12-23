@@ -27,7 +27,7 @@ import {
   IonInput
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { AutoselectDirective } from '../Directives/autoselect/autoselect.directive';
+import { AutoselectDirective } from '../Directives/Autoselect/autoselect.directive';
 
 @Component({
   selector: 'app-login',
