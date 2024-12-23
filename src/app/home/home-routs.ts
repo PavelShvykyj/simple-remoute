@@ -12,8 +12,8 @@ export const NESTED_ROUTS: Routes = [
       import('./visits/visits.page').then(c => c.VisitsPage),
   },
   {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'price',
+    path: 'settings',
+    loadComponent: () =>
+      import('./settings/settings.page').then(c => c.SettingsPage),
   },
 ];

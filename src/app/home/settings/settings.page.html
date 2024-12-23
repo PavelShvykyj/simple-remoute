@@ -1,0 +1,69 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="primary-tint-toolbar">
+    <ion-title>Settings</ion-title>
+    <ion-avatar
+      class="small-avatar ion-margin-start ion-margin-end"
+      slot="start"
+    >
+      <img
+        class="small-avatar__logo"
+        alt="Logo"
+        src="../../../assets/icon/white-logo-90.png"
+      />
+    </ion-avatar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar class="primary-tint-toolbar">
+      <ion-title>Settings</ion-title>
+      <ion-avatar
+        class="small-avatar ion-margin-start ion-margin-end"
+        slot="start"
+      >
+        <img
+          class="small-avatar__logo"
+          alt="Logo"
+          src="../../../assets/icon/white-logo-90.png"
+        />
+      </ion-avatar>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col offset-lg="4" size-lg="4" size-sm="10" offset-sm="1">
+        <ion-list>
+          <ion-list-header color="medium">
+            <ion-label>Local db data</ion-label>
+          </ion-list-header>
+          <ion-item>
+            <ion-label>Last sync date</ion-label>
+            <ion-note color="primary" slot="end">
+              <strong>{{ metadata().lastSync | date: 'YYYY-MM-dd hh:mm:ss' }}</strong>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>Goods total</ion-label>
+            <ion-note color="primary" slot="end">
+              <strong>{{ metadata().goodsTotal }}</strong>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-button (clck)="onRefresh()" color="medium" slot="end"> Refresh  </ion-button>
+            <ion-button id="clear-alert" color="danger" slot="end"> Clear database </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-alert
+  trigger="clear-alert"
+  header="Deletion"
+  subHeader="Please confirm deletion local data"
+  message="Data in cloud will not be deleted anyway"
+  [buttons]="clearAlertButtons"
+></ion-alert>

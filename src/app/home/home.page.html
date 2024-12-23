@@ -1,19 +1,40 @@
+@if(isLoded()) {
+  <ion-tabs >
+    <ion-tab-bar slot="bottom" color="light">
+      <ion-tab-button tab="price">
+        <ion-icon  [name]="!(auth.isLoggedin()) ? 'lock-closed-outline' : 'bar-chart-outline' "></ion-icon>
+        <ion-label>Price list</ion-label>
+      </ion-tab-button>
 
-<ion-tabs >
-  <ion-tab-bar slot="bottom" color="light">
-    <ion-tab-button tab="price">
-      <ion-icon  [name]="!(auth.isLoggedin()) ? 'lock-closed-outline' : 'bar-chart-outline' "></ion-icon>
-      <ion-label>Price list</ion-label>
-    </ion-tab-button>
+      <ion-tab-button tab="visits">
+        <ion-icon  [name]="!(auth.isLoggedin()) ? 'lock-closed-outline' : 'apps-outline' "></ion-icon>
+        <ion-label>Visits</ion-label>
+      </ion-tab-button>
 
-    <ion-tab-button tab="visits">
-      <ion-icon  [name]="!(auth.isLoggedin()) ? 'lock-closed-outline' : 'apps-outline' "></ion-icon>
-      <ion-label>Visits</ion-label>
-    </ion-tab-button>
+      <ion-tab-button tab="settings">
+        <ion-icon  [name]="!(auth.isLoggedin()) ? 'lock-closed-outline' : 'settings-outline' "></ion-icon>
+        <ion-label>Settings</ion-label>
+      </ion-tab-button>
 
-    <ion-tab-button (click)="onLogout()">
-      <ion-icon  [name]="!(auth.isLoggedin()) ? 'lock-closed-outline' : 'lock-open-outline' "></ion-icon>
-      <ion-label>Log out</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-tabs>
+      <ion-tab-button (click)="onLogout()">
+        <ion-icon  [name]="!(auth.isLoggedin()) ? 'lock-closed-outline' : 'lock-open-outline' "></ion-icon>
+        <ion-label>Log out</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+}
+@else {
+  <ion-content [fullscreen]="true">
+    <ion-grid class="full-height">
+      <ion-row class="full-height ion-align-items-center">
+        <ion-col offset-lg="4" size-lg="4" size-sm="10" offset-sm="1">
+          <ion-item lines="none">
+            <ion-label>Syncronization of goods</ion-label>
+            <ion-spinner name="dots"></ion-spinner>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+}
+
