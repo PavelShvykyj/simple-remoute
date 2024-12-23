@@ -6,6 +6,10 @@ import { AppComponent } from './app/app.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
+import { provideState, provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { GoodsEffects } from './app/state/good.effects';
+import { goodsReducer } from './app/state/reducer';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBRcOZ52d_YPrp2q5XVRYez_xVN1yf5BDI",
@@ -25,5 +29,9 @@ bootstrapApplication(AppComponent, {
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
+    provideStore({
+      goods: goodsReducer
+    }),
+    provideEffects([GoodsEffects]),
   ],
 });

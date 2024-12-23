@@ -39,7 +39,7 @@ import {
   IonInput
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { AutoselectDirective } from '../Directives/Autoselect/autoselect.directive';
+import { AutoselectDirective } from '../Directives/autoselect/autoselect.directive';
 
 @Component({
   selector: 'app-login',
@@ -47,39 +47,27 @@ import { AutoselectDirective } from '../Directives/Autoselect/autoselect.directi
   styleUrls: ['./login.page.scss'],
   standalone: true,
   imports: [
-     AutoselectDirective,
-     CommonModule,
-     FormsModule,
-     IonHeader,
-     IonToolbar,
-     IonTitle,
-     IonContent,
-     IonLabel,
-     IonList,
-     IonItem,
-     IonButtons,
-     IonButton,
-     IonSplitPane,
-     IonAvatar,
-     IonNote,
-     IonText,
-     IonSpinner,
-     IonMenu,
-     IonIcon,
-     IonListHeader,
-     IonFooter,
-     IonModal,
-     IonCard,
-     IonCardContent,
-     IonCardHeader,
-     IonCardTitle,
-     IonCheckbox,
-     IonAlert,
-     IonGrid,
-     IonRow,
-     IonCol,
-     IonInput
-    ],
+    AutoselectDirective,
+    CommonModule,
+    FormsModule,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonLabel,
+    IonItem,
+    IonButtons,
+    IonButton,
+    IonAvatar,
+    IonNote,
+    IonSpinner,
+    IonIcon,
+    IonFooter,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonInput
+],
 })
 export class LoginPage  {
   focusOnEnterElement = viewChild<IonInput>('focusOnEnter');
@@ -92,7 +80,6 @@ export class LoginPage  {
 
   constructor() {
     addIcons({ closeOutline, checkmarkOutline });
-
     effect(()=>{
       if(this.auth.LoggedStatus() === 'loggedin') {
         this.router.navigate(['home'])
