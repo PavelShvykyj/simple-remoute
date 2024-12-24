@@ -4,7 +4,7 @@
   import { createReducer, on } from '@ngrx/store';
 
   export interface GoodsState extends EntityState<Good> {
-    selectedGoodParentId: number | null;
+    currentFolder: string;
     isLoaded: boolean
   }
 
@@ -18,7 +18,7 @@
   });
 
   export const initialGoodsState: GoodsState = goodsAdapter.getInitialState({
-    selectedGoodParentId: null,
+    currentFolder: "",
     isLoaded: false,
   });
 
@@ -35,5 +35,5 @@
     on(GoodsActions.addGoods, (state, { good }) => goodsAdapter.addOne(good, state)),
     on(GoodsActions.updateGoods, (state, { goods }) => goodsAdapter.updateOne({ id: goods.id, changes: goods }, state)),
     on(GoodsActions.deleteGoods, (state, { id }) => goodsAdapter.removeOne(id, state)),
-    on(GoodsActions.selectGoods, (state, { id }) => ({ ...state, selectedGoodsId: id })),
+    on(GoodsActions.selectFolder, (state, { id }) => ({ ...state, currentFolder: id })),
   );

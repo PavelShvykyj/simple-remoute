@@ -5,5 +5,6 @@
     name: string,
     isFolder: boolean,
     price?: number,
-    rest?: number
+    rest?: number,
+    normalizedName:string
   }

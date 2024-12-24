@@ -16,4 +16,52 @@
       </ion-avatar>
     </ion-toolbar>
   </ion-header>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col offset-lg="4" size-lg="4" size-sm="10" offset-sm="1">
+        <ion-breadcrumbs>
+          <ion-breadcrumb >
+            <ion-icon (click)="onHeaderFolderClick('')" slot="start" name="home"></ion-icon>
+          </ion-breadcrumb>
+          @for (folder of folderTree(); track $index) {
+            <ion-breadcrumb > <div (click)="onHeaderFolderClick(folder.id)"> {{ folder.name }} </div> </ion-breadcrumb>
+          }
+        </ion-breadcrumbs>
+
+        <ion-list>
+          @for (good of goodsView(); track $index) {
+            <ion-item (click)="onGoodClick(good)">
+              <ion-icon
+                slot="start"
+                [name]="good.isFolder ? 'folder' : 'remove'"
+                [color]="good.isFolder ? 'warning' : 'primary'">
+              </ion-icon>
+              <ion-label> {{ good.name }} </ion-label>
+              @if(!good.isFolder) {
+                <ion-note slot="end" color="primary"> {{ good.price }} </ion-note>
+                <ion-note slot="end" color="primary"> {{ good.rest }} </ion-note>
+              }
+            </ion-item>
+          }
+          @empty {
+            <ion-item>
+              <ion-label> Nothing was found </ion-label>
+            </ion-item>
+          }
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+
+
+<!-- <ion-footer>
+  <ion-toolbar color='light'>
+    <ion-buttons slot="end">
+      <ion-button class="text-accent" size='large' expand='block' color='danger'> <ion-icon name="close-outline"></ion-icon></ion-button>
+      <ion-button class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer> -->
+

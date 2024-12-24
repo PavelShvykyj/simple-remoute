@@ -37,7 +37,8 @@ import { addIcons } from 'ionicons';
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
   standalone: true,
-  imports: [IonIcon,
+  imports: [
+    IonIcon,
     DatePipe,
     IonAlert,
     IonGrid,

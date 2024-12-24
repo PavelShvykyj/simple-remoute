@@ -51,6 +51,6 @@ export class GoodsEffects {
   loadGoods$ = createEffect(() =>
     this.actions$.pipe(
       ofType(GoodsActions.syncGoodsSuccess),
-      map((props) => GoodsActions.loadGoods(props))
-    ));
-}
+      switchMap(() => from(this.indexedDBService.getGoods())),
+      map((loaded) => GoodsActions.loadGoods({goods: loaded}))));
+};

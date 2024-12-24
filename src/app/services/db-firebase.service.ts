@@ -9,6 +9,7 @@ import {
 } from '@angular/fire/database';
 import { map, Observable } from 'rxjs';
 import { Good } from '../models/good-model';
+import { search } from 'ionicons/icons';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,16 @@ export class FireDBService {
       orderByChild('updatedAt'),
       startAfter(lastSync)
     );
-    return listVal<Good>(querySync);
+    return listVal<Good>(querySync).pipe(
+      map((goods) => {
+        const goodsMaped = goods.map((el) => {
+          return {
+            ...el,
+            normalizedName: el.name.toUpperCase().replace(/\s/g, ''),
+          };
+        });
+        return goodsMaped;
+      })
+    );
   }
 }
