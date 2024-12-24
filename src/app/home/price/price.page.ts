@@ -87,29 +87,25 @@ export class PricePage {
     addIcons({ home, folder, remove, closeOutline, checkmarkOutline });
 
     this.store
-      .pipe(
-        select(selectCurrentFolderID),
-        switchMap((id) => {
-          return this.store.pipe(select(selectGoodsByFolder(id)));
-        }),
-        takeUntilDestroyed()
-      )
-      .subscribe((goods) => {
-        this.goodsView.set(goods);
-      });
+    .pipe(
+      select(selectCurrentFolderID),
+      switchMap((id) =>
+        this.store.pipe(
+          select(selectGoodsByFolder(id)),
+          switchMap((goods) =>
+            this.store.pipe(select(selectFolderTree(id))).pipe(
+              map((tree) => ({ goods, tree }))
+            )
+          )
+        )
+      ),
+      takeUntilDestroyed()
+    )
+    .subscribe(({ goods, tree }) => {
+      this.goodsView.set(goods);
+      this.folderTree.set(tree);
+    });
 
-    this.store
-      .pipe(
-        select(selectCurrentFolderID),
-        switchMap((id) => {
-          return this.store.pipe(select(selectFolderTree(id)));
-        }),
-        takeUntilDestroyed()
-      )
-      .subscribe((tree) => {
-        console.log('tree',tree);
-        this.folderTree.set(tree);
-      });
   }
 
   onGoodClick(good: Good) {

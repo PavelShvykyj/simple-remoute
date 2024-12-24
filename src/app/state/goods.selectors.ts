@@ -19,7 +19,7 @@ export const selectCurrentFolder = createSelector(
 
 export const selectFolderTree = (id: string) =>
   createSelector(selectGoodsEntities, (goodsDictionary) => {
-    const folderTree: Good[] = [];
+    let folderTree: Good[] = [];
     if (id === '') {
       return folderTree;
     }
@@ -27,7 +27,8 @@ export const selectFolderTree = (id: string) =>
     while (parentID !== '') {
       const currentParent = goodsDictionary[parentID];
       if (currentParent) {
-        folderTree.push(currentParent);
+        folderTree = [currentParent, ...folderTree];
+        //folderTree.push(currentParent);
         parentID = currentParent.parentid;
       } else {
         parentID === '';
