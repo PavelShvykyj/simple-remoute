@@ -44,7 +44,7 @@ export class FireAuthService {
         this.notificator.NotificateSuccess('Login');
       })
       .catch((error) => {
-        console.error('ERRoR', JSON.stringify(error));
+        console.error('error on login', JSON.stringify(error));
         this.credentional.set(null);
         this.notificator.NotificateError(
           'Login:  '.concat(JSON.stringify(error))

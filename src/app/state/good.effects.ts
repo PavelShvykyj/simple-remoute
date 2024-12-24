@@ -25,15 +25,20 @@ export class GoodsEffects {
                 take(1),
                 map((goods) => ({ goods, lastSync: Date.now() }))
               )
-          )
-        )
+          ),
+          catchError((error,lastSync)=> {
+            this.notificator.NotificateError("error on get goods from cloud");
+            console.error('error on get goods from cloud', error);
+            return of({goods: [], lastSync})
+          })
+        ),
       ),
       mergeMap(({ goods, lastSync }) =>
         from(this.indexedDBService.updateGoods(goods)).pipe(
           switchMap(() => from(this.indexedDBService.setLastSync(lastSync.toString()))),
           map(() => GoodsActions.syncGoodsSuccess({ goods })),
           catchError((error) => {
-            this.notificator.NotificateError(error);
+            this.notificator.NotificateError('error on sync goods effect');
             console.error('error on sync goods effect', error);
             return of(GoodsActions.syncGoodsFailure({ error: error.message }));
           }

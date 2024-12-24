@@ -28,6 +28,10 @@
       const withGoods = goodsAdapter.setAll(goods, state);
       return {...withGoods, isLoaded: true }
     }),
+    on(GoodsActions.syncGoods, state => {
+      const withGoods = goodsAdapter.removeAll(state);
+      return { ...withGoods, isLoaded: false }
+    }),
     on(GoodsActions.addGoods, (state, { good }) => goodsAdapter.addOne(good, state)),
     on(GoodsActions.updateGoods, (state, { goods }) => goodsAdapter.updateOne({ id: goods.id, changes: goods }, state)),
     on(GoodsActions.deleteGoods, (state, { id }) => goodsAdapter.removeOne(id, state)),

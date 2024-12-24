@@ -2,12 +2,8 @@ import { Component, effect, inject, OnInit, Signal } from '@angular/core';
 import {
   IonGrid,
   IonRow,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonTabBar,
-  IonTab,
   IonIcon,
   IonTabs,
   IonTabButton,

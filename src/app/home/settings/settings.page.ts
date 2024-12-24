@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, Signal, WritableSignal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal, Signal, WritableSignal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -16,19 +16,28 @@ import {
   IonButton,
   IonGrid,
   IonRow,
-  IonCol, } from '@ionic/angular/standalone';
+  IonCol,
+  IonIcon } from '@ionic/angular/standalone';
+import {
+  chevronDownCircle,
+  closeCircle
+
+} from 'ionicons/icons';
 import { IndexedDBService } from 'src/app/services/db-indexed.service';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { IndexedDBMetadata } from 'src/app/models/Indexeddb.metadata';
 import * as GoodsActions from '../../state/goods.actions';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { selectIsLoaded } from 'src/app/state/goods.selectors';
+import { addIcons } from 'ionicons';
+
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
   standalone: true,
-  imports: [
+  imports: [IonIcon,
     DatePipe,
     IonAlert,
     IonGrid,
@@ -52,7 +61,9 @@ import { Store } from '@ngrx/store';
 export class SettingsPage implements OnInit {
 
   private indexedDBService: IndexedDBService = inject(IndexedDBService);
-  private  store: Store = inject(Store);
+  private store: Store = inject(Store);
+  private destroyref$: DestroyRef = inject(DestroyRef);
+  isLoaded: WritableSignal<boolean> = signal(false);
   metadata: WritableSignal<IndexedDBMetadata> = signal({
     goodsTotal: 0,
     lastSync: new Date(),
@@ -71,15 +82,28 @@ export class SettingsPage implements OnInit {
     },
   ];
 
-  ngOnInit(): void {
-    this.getMetadata();
+  constructor() {
+    addIcons({
+      chevronDownCircle,
+      closeCircle,
+    });
   }
 
-  onClear() {
-    this.indexedDBService.clearAllTables().then(() => {
+  ngOnInit(): void {
+    this.store.pipe(
+      select(selectIsLoaded),
+      takeUntilDestroyed(this.destroyref$))
+    .subscribe(isLoaded => {
+      this.isLoaded.set(isLoaded);
       this.getMetadata();
-      this.store.dispatch(GoodsActions.loadGoods({goods: []}));
     });
+
+  }
+
+  async onClear() {
+    await this.indexedDBService.clearAllTables();
+    this.getMetadata();
+    this.store.dispatch(GoodsActions.loadGoods({goods: []}));
   }
 
   onRefresh() {

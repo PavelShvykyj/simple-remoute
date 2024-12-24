@@ -27,7 +27,7 @@ export class IndexedDBService extends Dexie {
   // Retrieve the last sync timestamp
   async getLastSync(): Promise<string | null> {
     const record = await this.syncData.get({ key: 'lastSync' });
-    return record ? record.value : null;
+    return record ? record.value : "0";
   }
 
   // Update the last sync timestamp

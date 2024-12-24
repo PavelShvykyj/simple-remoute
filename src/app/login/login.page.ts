@@ -28,6 +28,7 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { AutoselectDirective } from '../Directives/Autoselect/autoselect.directive';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -61,6 +62,7 @@ export class LoginPage  {
   focusOnEnterElement = viewChild<IonInput>('focusOnEnter');
   auth = inject(FireAuthService);
   router = inject(Router);
+  navCtrl = inject(NavController);
   credentionals = {
     email: "",
     password: ""
@@ -70,7 +72,8 @@ export class LoginPage  {
     addIcons({ closeOutline, checkmarkOutline });
     effect(()=>{
       if(this.auth.LoggedStatus() === 'loggedin') {
-        this.router.navigate(['home'])
+        this.navCtrl.navigateRoot('/home');
+        //this.router.navigate(['home'])
       }
     })
   }
