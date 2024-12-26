@@ -11,6 +11,11 @@ export const selectCurrentFolderID = createSelector(
   (state) => state.currentFolder
 );
 
+export const selectSearchValue = createSelector(
+  selectGoodsState,
+  (state) => state.searchValue
+);
+
 export const selectCurrentFolder = createSelector(
   selectGoodsEntities,
   selectCurrentFolderID,
@@ -46,8 +51,7 @@ export const selectGoodsByFolder = (parentId: string) =>
     return goods.filter((good) => good.parentid === parentId);
   });
 
-export const selectGoodsByNamePartial = (searchBy: string) => {
-  createSelector(selectAllGoods, (goods) =>
-    goods.filter((good) => good.normalizedName.search(searchBy))
-  );
-};
+export const selectGoodsByNamePartial = (searchBy: string) =>
+  createSelector(selectAllGoods, (goods) => {
+    return goods.filter((good) => good.normalizedName.search(searchBy) !== -1)
+  });

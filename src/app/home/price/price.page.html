@@ -1,13 +1,39 @@
 <ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar class="primary-tint-toolbar">
-    <ion-title>price list</ion-title>
+    <ion-title size="large">price list</ion-title>
     <ion-avatar class="small-avatar ion-margin-start ion-margin-end" slot="start">
       <img class="small-avatar__logo" alt="Logo" src="../../../assets/icon/white-logo-90.png" />
     </ion-avatar>
   </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      (keyup.enter)="OnSearhLeave()"
+      #search
+      show-clear-button='always'
+      debounce = "150"
+      showCancelButton= 'never'
+      placeholder="Search by name (min 3 symbols)"
+      (ionInput) = "OnNameFilterInput($event.target.value)">
+    </ion-searchbar>
+  </ion-toolbar>
+
+    <ion-breadcrumbs color="primary" class="ion-margin-start ion-margin-end">
+      <ion-breadcrumb >
+        <ion-icon color="primary" slot="start" name="home" (click)="onHeaderFolderClick('')" ></ion-icon>
+        <ion-icon color="primary" slot="separator" name="chevron-forward-outline"></ion-icon>
+      </ion-breadcrumb>
+      @for (folder of folderTree(); track $index) {
+        <ion-breadcrumb color>
+          <div (click)="onHeaderFolderClick(folder.id)"> {{ folder.name }} </div>
+          <ion-icon color="primary" slot="separator" name="chevron-forward-outline"></ion-icon>
+        </ion-breadcrumb>
+      }
+    </ion-breadcrumbs>
+
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <ion-header collapse="condense" class="ion-no-border">
     <ion-toolbar class="primary-tint-toolbar">
       <ion-title size="large">price list</ion-title>
@@ -15,20 +41,36 @@
         <img class="small-avatar__logo" alt="Logo" src="../../../assets/icon/white-logo-90.png" />
       </ion-avatar>
     </ion-toolbar>
+    <ion-toolbar>
+      <ion-searchbar
+        (keyup.enter)="OnSearhLeave()"
+        #search
+        show-clear-button='always'
+        debounce = "150"
+        showCancelButton= 'never'
+        placeholder="Search by name (min 3 symbols)"
+        (ionInput) = "OnNameFilterInput($event.target.value)">
+      </ion-searchbar>
+    </ion-toolbar>
+
+      <ion-breadcrumbs color="primary" class="ion-margin-start ion-margin-end">
+        <ion-breadcrumb >
+          <ion-icon color="primary" slot="start" name="home" (click)="onHeaderFolderClick('')" ></ion-icon>
+          <ion-icon color="primary" slot="separator" name="chevron-forward-outline"></ion-icon>
+        </ion-breadcrumb>
+        @for (folder of folderTree(); track $index) {
+          <ion-breadcrumb >
+            <div (click)="onHeaderFolderClick(folder.id)"> {{ folder.name }} </div>
+            <ion-icon color="primary" slot="separator" name="chevron-forward-outline"></ion-icon>
+          </ion-breadcrumb>
+        }
+      </ion-breadcrumbs>
+
   </ion-header>
 
   <ion-grid>
     <ion-row>
       <ion-col offset-lg="4" size-lg="4" size-sm="10" offset-sm="1">
-        <ion-breadcrumbs>
-          <ion-breadcrumb >
-            <ion-icon (click)="onHeaderFolderClick('')" slot="start" name="home"></ion-icon>
-          </ion-breadcrumb>
-          @for (folder of folderTree(); track $index) {
-            <ion-breadcrumb > <div (click)="onHeaderFolderClick(folder.id)"> {{ folder.name }} </div> </ion-breadcrumb>
-          }
-        </ion-breadcrumbs>
-
         <ion-list>
           @for (good of goodsView(); track $index) {
             <ion-item (click)="onGoodClick(good)">
