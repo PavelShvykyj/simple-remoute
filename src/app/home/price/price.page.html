@@ -17,18 +17,18 @@
     </ion-searchbar>
   </ion-toolbar>
 
-    <ion-breadcrumbs color="primary" class="ion-margin-start ion-margin-end">
-      <ion-breadcrumb >
-        <ion-icon color="primary" slot="start" name="home" (click)="onHeaderFolderClick('')" ></ion-icon>
+  <ion-breadcrumbs color="primary" class="ion-margin-start ion-margin-end">
+    <ion-breadcrumb >
+      <ion-icon color="primary" slot="start" name="home" (click)="onHeaderFolderClick('')" ></ion-icon>
+      <ion-icon color="primary" slot="separator" name="chevron-forward-outline"></ion-icon>
+    </ion-breadcrumb>
+    @for (folder of folderTree(); track $index) {
+      <ion-breadcrumb color>
+        <div (click)="onHeaderFolderClick(folder.id)"> {{ folder.name }} </div>
         <ion-icon color="primary" slot="separator" name="chevron-forward-outline"></ion-icon>
       </ion-breadcrumb>
-      @for (folder of folderTree(); track $index) {
-        <ion-breadcrumb color>
-          <div (click)="onHeaderFolderClick(folder.id)"> {{ folder.name }} </div>
-          <ion-icon color="primary" slot="separator" name="chevron-forward-outline"></ion-icon>
-        </ion-breadcrumb>
-      }
-    </ion-breadcrumbs>
+    }
+  </ion-breadcrumbs>
 
 </ion-header>
 
@@ -52,20 +52,18 @@
         (ionInput) = "OnNameFilterInput($event.target.value)">
       </ion-searchbar>
     </ion-toolbar>
-
-      <ion-breadcrumbs color="primary" class="ion-margin-start ion-margin-end">
+    <ion-breadcrumbs color="primary" class="ion-margin-start ion-margin-end">
+      <ion-breadcrumb >
+        <ion-icon color="primary" slot="start" name="home" (click)="onHeaderFolderClick('')" ></ion-icon>
+        <ion-icon color="primary" slot="separator" name="chevron-forward-outline"></ion-icon>
+      </ion-breadcrumb>
+      @for (folder of folderTree(); track $index) {
         <ion-breadcrumb >
-          <ion-icon color="primary" slot="start" name="home" (click)="onHeaderFolderClick('')" ></ion-icon>
+          <div (click)="onHeaderFolderClick(folder.id)"> {{ folder.name }} </div>
           <ion-icon color="primary" slot="separator" name="chevron-forward-outline"></ion-icon>
         </ion-breadcrumb>
-        @for (folder of folderTree(); track $index) {
-          <ion-breadcrumb >
-            <div (click)="onHeaderFolderClick(folder.id)"> {{ folder.name }} </div>
-            <ion-icon color="primary" slot="separator" name="chevron-forward-outline"></ion-icon>
-          </ion-breadcrumb>
-        }
-      </ion-breadcrumbs>
-
+      }
+    </ion-breadcrumbs>
   </ion-header>
 
   <ion-grid>

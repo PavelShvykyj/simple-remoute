@@ -1,9 +1,6 @@
 import {
   Component,
-  effect,
   inject,
-  OnInit,
-  Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -36,8 +33,12 @@ import {
   remove,
   closeOutline,
   checkmarkOutline,
-  home, searchOutline, chevronBackOutline, homeOutline,
-  chevronForwardCircleOutline, chevronForwardOutline } from 'ionicons/icons';
+  home,
+  searchOutline,
+  chevronBackOutline,
+  homeOutline,
+  chevronForwardCircleOutline,
+  chevronForwardOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { select, Store } from '@ngrx/store';
 import { Good } from 'src/app/models/good-model';
@@ -55,13 +56,10 @@ import { forkJoin, map, switchMap, tap, take, filter, combineLatest } from 'rxjs
   templateUrl: './price.page.html',
   styleUrls: ['./price.page.scss'],
   standalone: true,
-  imports: [IonFabButton,
-    IonFab,
+  imports: [
     IonSearchbar,
     IonBreadcrumb,
     IonBreadcrumbs,
-    IonButtons,
-    IonFooter,
     IonIcon,
     IonContent,
     IonHeader,
@@ -73,9 +71,7 @@ import { forkJoin, map, switchMap, tap, take, filter, combineLatest } from 'rxjs
     IonItem,
     IonLabel,
     IonList,
-    IonListHeader,
     IonNote,
-    IonButton,
     IonGrid,
     IonRow,
     IonCol,
