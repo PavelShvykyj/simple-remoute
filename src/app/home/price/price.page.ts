@@ -132,9 +132,7 @@ export class PricePage {
     this.store.dispatch(GoodsActions.selectFolder({ id }));
   }
 
-  OnSearhLeave() {
-    this.store.dispatch(GoodsActions.selectSearchValue({value: ''}))
-  }
+
 
   OnNameFilterInput(value?: string | null) {
     this.store.dispatch(GoodsActions.selectSearchValue({value: value ?? ''}))
