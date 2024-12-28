@@ -1,6 +1,7 @@
 import {
   Component,
   inject,
+  OnDestroy,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -16,20 +17,17 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonListHeader,
   IonNote,
-  IonButton,
   IonGrid,
   IonRow,
   IonCol,
   IonIcon,
-  IonFooter,
-  IonButtons,
   IonBreadcrumb,
   IonBreadcrumbs,
-  IonSearchbar, IonFab, IonFabButton } from '@ionic/angular/standalone';
+  IonSearchbar, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import {
   folder,
+  caretBack,
   remove,
   closeOutline,
   checkmarkOutline,
@@ -56,7 +54,7 @@ import { forkJoin, map, switchMap, tap, take, filter, combineLatest } from 'rxjs
   templateUrl: './price.page.html',
   styleUrls: ['./price.page.scss'],
   standalone: true,
-  imports: [
+  imports: [IonBackButton, IonButtons,
     IonSearchbar,
     IonBreadcrumb,
     IonBreadcrumbs,
@@ -78,14 +76,15 @@ import { forkJoin, map, switchMap, tap, take, filter, combineLatest } from 'rxjs
     IonBreadcrumb,
   ],
 })
-export class PricePage {
+export class PricePage implements OnDestroy {
   private store = inject(Store);
   goodsView: WritableSignal<Good[]> = signal([]);
   folderTree: WritableSignal<Good[]> = signal([]);
 
 
   constructor() {
-    addIcons({home,chevronForwardOutline,searchOutline,chevronBackOutline,chevronForwardCircleOutline,homeOutline,folder,remove,closeOutline,checkmarkOutline});
+    console.log('PRICE CREATION');
+    addIcons({caretBack, home,chevronForwardOutline,searchOutline,chevronBackOutline,chevronForwardCircleOutline,homeOutline,folder,remove,closeOutline,checkmarkOutline});
 
     // ? display goods
     combineLatest(
@@ -121,6 +120,9 @@ export class PricePage {
     .subscribe((tree ) => {
       this.folderTree.set(tree);
     });
+  }
+  ngOnDestroy(): void {
+    console.log('PRICE DESTROID');
   }
 
   onGoodClick(good: Good) {

@@ -1,4 +1,13 @@
-import { Component, effect, inject, OnInit, Signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  OnInit,
+  signal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
+import { NgClass } from '@angular/common';
 import {
   IonGrid,
   IonRow,
@@ -11,6 +20,7 @@ import {
   IonItem,
   IonSpinner,
   IonCol,
+  NavController,
 } from '@ionic/angular/standalone';
 import { FireAuthService } from '../services/fire.auth.service';
 import {
@@ -21,11 +31,12 @@ import {
   settingsOutline,
 } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
-import { ActivatedRoute, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import * as GoodsActions from '../state/goods.actions';
 import { selectIsLoaded } from '../state/goods.selectors';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -33,6 +44,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   styleUrls: ['home.page.scss'],
   standalone: true,
   imports: [
+    NgClass,
     IonGrid,
     IonRow,
     IonCol,
@@ -49,11 +61,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class HomePage implements OnInit {
   auth: FireAuthService = inject(FireAuthService);
   router: Router = inject(Router);
-  route = inject(ActivatedRoute);
+  navigator = inject(NavController);
   store: Store = inject(Store);
   isLoded: Signal<boolean> = toSignal(this.store.pipe(select(selectIsLoaded)), {
     initialValue: false,
   });
+  showTabs: WritableSignal<boolean> = signal(true);
 
   constructor() {
     addIcons({
@@ -66,18 +79,31 @@ export class HomePage implements OnInit {
 
     effect(() => {
       if (this.isLoded()) {
-        this.router.navigate(['price'], { relativeTo: this.route });
+        this.navigator.navigateForward('home/price');
       }
     });
   }
 
   ngOnInit(): void {
     this.store.dispatch(GoodsActions.syncGoods());
+
+    this.router.events
+      .subscribe((event) => {
+        console.log('event',event, event instanceof NavigationEnd)
+        if(event instanceof NavigationEnd) {
+          if (event.url.includes('/visits')) {
+            this.showTabs.set(false);
+            console.log('showTabs',this.showTabs());
+          } else {
+            this.showTabs.set(true);
+          }
+          }
+      });
   }
 
   onLogout() {
     this.auth.logOut().then(() => {
-      this.router.navigate(['/login']);
+      this.navigator.navigateRoot('login');
     });
   }
 }

@@ -1,0 +1,41 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Fill the address</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <form [formGroup]="addressForm">
+      <ion-item>
+        <ion-input
+          #streetInput
+          formControlName="street"
+          placeholder="Street"
+          clearInput="true">
+        </ion-input>
+        <ion-button fill="Outline" slot="end" (click)="onBlurButtonClick(streetInput)">
+          <ion-icon name="search-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+      @if(predictions.length) {
+        <ion-list>
+          <ion-list-header> Select address </ion-list-header>
+          @for (prediction of predictions; track $index) {
+            <ion-item (click)="selectStreet(prediction)">
+              {{ prediction.description }}
+            </ion-item>
+          }
+        </ion-list>
+      }
+      @if (selectedStreet) {
+        <ion-item >
+          <ion-input
+            #houseInput
+            formControlName="house"
+            placeholder="House"
+            clearInput="true">
+          </ion-input>
+        </ion-item>
+      }
+      <ion-button expand="block" (click)="confirmAddress()">Confirm</ion-button>
+    </form>
+  </ion-card-content>
+</ion-card>

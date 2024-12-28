@@ -1,6 +1,6 @@
 @if(isLoded()) {
   <ion-tabs >
-    <ion-tab-bar slot="bottom" color="light">
+    <ion-tab-bar [ngClass]="{ hidden: !showTabs() }" slot="bottom" color="light">
       <ion-tab-button tab="price">
         <ion-icon  [name]="!(auth.isLoggedin()) ? 'lock-closed-outline' : 'bar-chart-outline' "></ion-icon>
         <ion-label>Price list</ion-label>

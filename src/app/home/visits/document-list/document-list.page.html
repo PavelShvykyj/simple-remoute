@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar class="primary-tint-toolbar">
+    <ion-title >Document list</ion-title>
+    <ion-avatar class="small-avatar ion-margin-start ion-margin-end" slot="start">
+      <img class="small-avatar__logo" alt="Logo" src="../../../assets/icon/white-logo-90.png" />
+    </ion-avatar>
+    <ion-buttons slot="end">
+      <ion-back-button color="light" text="BACK" icon="caret-back" defaultHref="home/price"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <p>Navigate to detail page.</p>
+  <ion-nav-link router-direction="forward" [component]="documentDetail" [componentProps]="{ id: 'bfasd34058' }">
+    <ion-button>Navigate</ion-button>
+  </ion-nav-link>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color='light'>
+    <ion-buttons slot="end">
+      <ion-button class="text-accent" size='large' expand='block' color='danger'> <ion-icon name="close-outline"></ion-icon></ion-button>
+      <ion-button class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

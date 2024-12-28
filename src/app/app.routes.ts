@@ -36,13 +36,5 @@ export const routes: Routes = [
         loadChildren: () => import('./home/home-routs').then(r => r.NESTED_ROUTS),
       }
     ]
-  },
-  {
-    path: 'settings',
-    loadComponent: () => import('./home/settings/settings.page').then( m => m.SettingsPage)
-  },
-  {
-    path: 'settings',
-    loadComponent: () => import('./home/settings/settings.page').then( m => m.SettingsPage)
-  },
+  }
 ];

@@ -16,7 +16,7 @@ export class IndexedDBService extends Dexie {
 
     // Define the database schema
     this.version(1).stores({
-      goods: 'id, lastUpdate', // Indexes for querying
+      goods: 'id, updatedAt', // Indexes for querying
       syncData: 'key', // Simple key-value store for metadata
     });
 
@@ -62,4 +62,5 @@ export class IndexedDBService extends Dexie {
       })
     ).pipe(take(1));
   }
+
 }

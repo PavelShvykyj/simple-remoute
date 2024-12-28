@@ -69,6 +69,7 @@ export class LoginPage  {
   }
 
   constructor() {
+    console.log('CREATE LOGIN')
     addIcons({ closeOutline, checkmarkOutline });
     effect(()=>{
       if(this.auth.LoggedStatus() === 'loggedin') {
