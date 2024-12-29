@@ -12,11 +12,27 @@
 
 <ion-content [fullscreen]="true">
   <form class="ion-margin form-block" [formGroup]="documentHeaderForm">
-
     <ion-grid>
       <ion-row>
         <ion-col>
           <app-address-autocomplete controlKey="visitAddress" controlLabel="Address of visit"></app-address-autocomplete>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-margin-bottom" offset-lg="2" size-lg="6" size-sm="10" offset-sm="1">
+          <ion-input
+            formControlName="contract"
+            enterkeyhint="next"
+            appAutoselect
+            color="medium"
+            label="Contract №"
+            label-placement="floating"
+            fill="outline"
+            type="text"
+            helperText="Enter a contract № (optional)"
+            clearInput="true">
+          </ion-input>
         </ion-col>
       </ion-row>
 
@@ -54,23 +70,36 @@
           </ion-input>
         </ion-col>
       </ion-row>
+
+      <ion-row>
+        <ion-col  offset-lg="2" size-lg="6" size-sm="10" offset-sm="1">
+            <ion-item color="primary" [button]="true" [detail]="false" id="select-goods">
+              <ion-label>Select goods</ion-label>
+              <div slot="end" >total selected: {{ goodsTotal() }}</div>
+            </ion-item>
+        </ion-col>
+      </ion-row>
+
     </ion-grid>
-
-
   </form>
-
-  <ion-title></ion-title>
-  <!-- <p>Navigate to price.</p>
-  <ion-nav-link router-direction="forward" [component]="priceDetail" >
-    <ion-button>Navigate</ion-button>
-  </ion-nav-link> -->
 </ion-content>
 
-<ion-footer>
+<ion-modal trigger="select-goods" #modal>
+  <ng-template>
+    <app-price
+      (selectionCancel)="modal.dismiss()"
+      (selectionChange)="onSelectionChange($event); modal.dismiss()"
+      [showFooter]="true">
+    </app-price>
+  </ng-template>
+</ion-modal>
+
+
+<ion-footer class="fixed-bottom">
   <ion-toolbar color='light'>
     <ion-buttons slot="end">
-      <ion-button class="text-accent" size='large' expand='block' color='danger'> <ion-icon name="close-outline"></ion-icon></ion-button>
-      <ion-button class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
+      <ion-button  (click)="onReject()" class="text-accent" size='large' expand='block' color='danger'> <ion-icon name="close-outline"></ion-icon></ion-button>
+      <ion-button  (click)="onConfirm()" class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>

@@ -1,7 +1,8 @@
 import {
   Component,
   inject,
-  OnDestroy,
+  input,
+  output,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -24,7 +25,17 @@ import {
   IonIcon,
   IonBreadcrumb,
   IonBreadcrumbs,
-  IonSearchbar, IonButtons, IonBackButton } from '@ionic/angular/standalone';
+  IonSearchbar,
+  IonButtons,
+  IonBackButton,
+  IonFooter,
+  IonButton,
+  IonCheckbox,
+  IonBadge,
+  IonFabButton,
+  IonFab,
+  NavController,
+  ActionSheetController } from '@ionic/angular/standalone';
 import {
   folder,
   caretBack,
@@ -36,11 +47,16 @@ import {
   chevronBackOutline,
   homeOutline,
   chevronForwardCircleOutline,
-  chevronForwardOutline } from 'ionicons/icons';
+  chevronForwardOutline,
+  keypadOutline,
+  ellipsisVertical,
+  toggleOutline,
+  createOutline
+} from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { select, Store } from '@ngrx/store';
-import { Good } from 'src/app/models/good-model';
-import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { DocumentRecordGood, Good } from 'src/app/models/good-model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   selectCurrentFolderID,
   selectFolderTree,
@@ -48,13 +64,22 @@ import {
   selectGoodsByNamePartial,
   selectSearchValue,
 } from 'src/app/state/goods.selectors';
-import { forkJoin, map, switchMap, tap, take, filter, combineLatest } from 'rxjs';
+import { switchMap, combineLatest } from 'rxjs';
+
 @Component({
   selector: 'app-price',
   templateUrl: './price.page.html',
   styleUrls: ['./price.page.scss'],
   standalone: true,
-  imports: [IonBackButton, IonButtons,
+  imports: [
+    IonFab,
+    IonFabButton,
+    IonBadge,
+    IonCheckbox,
+    IonButton,
+    IonFooter,
+    IonBackButton,
+    IonButtons,
     IonSearchbar,
     IonBreadcrumb,
     IonBreadcrumbs,
@@ -73,17 +98,42 @@ import { forkJoin, map, switchMap, tap, take, filter, combineLatest } from 'rxjs
     IonGrid,
     IonRow,
     IonCol,
-    IonBreadcrumb,
+    IonBreadcrumb
   ],
 })
 export class PricePage {
   private store = inject(Store);
+  private actionSheetCtrl = inject(ActionSheetController);
+  nav = inject(NavController);
   goodsView: WritableSignal<Good[]> = signal([]);
   folderTree: WritableSignal<Good[]> = signal([]);
+  showFooter = input<boolean>(false);
+  selectionCancel = output();
+  selectionChange = output<Record<string, DocumentRecordGood>>();
+  selectedGoods: Record<string, DocumentRecordGood> = {};
+  showSelectedOnly = signal(false);
+  actions = {
+    header: 'Choose action :',
 
+    buttons: [
+      {
+        text: 'Create new visit',
+        icon: 'create-outline',
+        handler:
+          () => { this.onActionClick('CREATE') }
+      },
+
+      {
+        text: 'Toggle show selected',
+        icon: 'toggle-outline',
+        handler:
+          () => { this.onActionClick('CHANGE_SHOW_SELECTED') }
+      },
+    ]
+  }
 
   constructor() {
-    addIcons({caretBack, home,chevronForwardOutline,searchOutline,chevronBackOutline,chevronForwardCircleOutline,homeOutline,folder,remove,closeOutline,checkmarkOutline});
+    addIcons({createOutline, toggleOutline, home, ellipsisVertical, chevronForwardOutline,folder,keypadOutline,closeOutline,checkmarkOutline,caretBack,searchOutline,chevronBackOutline,chevronForwardCircleOutline,homeOutline,remove});
 
     // ? display goods
     combineLatest(
@@ -132,7 +182,40 @@ export class PricePage {
 
 
 
-  OnNameFilterInput(value?: string | null) {
+  onNameFilterInput(value?: string | null) {
     this.store.dispatch(GoodsActions.selectSearchValue({value: value ?? ''}))
+  }
+
+  onSelectionConfirm() {
+    this.selectionChange.emit(this.selectedGoods);
+  }
+
+  onGoodSelect(good: Good) {
+    this.selectedGoods[good.id] =
+      {
+        docId: undefined,
+        id: good.id,
+        quontity: 1,
+        price: good.price,
+        total: good.price ?? 0
+      }
+  }
+
+  async onShowActions() {
+    const actionSheet = await this.actionSheetCtrl.create(this.actions);
+    await actionSheet.present();
+  }
+
+  onActionClick(action: string) {
+    switch (action) {
+      case 'CREATE':
+        this.nav.navigateForward(['/home/visitdetail', '']);
+        break;
+      case 'CHANGE_SHOW_SELECTED':
+        this.showSelectedOnly.set(!this.showSelectedOnly())
+        break;
+      default:
+        break;
+    }
   }
 }

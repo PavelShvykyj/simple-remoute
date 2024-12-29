@@ -120,19 +120,16 @@ export class AddressAutocompleteComponent  implements OnInit, OnDestroy {
     }
       this.addressIsSearching.set(true);
       const query = `${address.country}, ${address.region}, ${address.city}, ${address.street}`;
-      console.log('query',query)
       this.autocompleteService.getPlacePredictions(
         { input: query,
           types: ['address'],
           componentRestrictions: { country: 'ua' },
         },
         (predictions, status) => {
-          console.log('predictions, status',predictions, status);
           this.addressIsSearching.set(false);
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             this.predictions = (predictions || []).filter(prediction =>
               prediction.description.includes(address.city!));
-            console.log('field prediction',this.predictions) ;
             setTimeout(()=>{this.selectComponent()?.open();},0)
           } else {
             this.predictions = [];

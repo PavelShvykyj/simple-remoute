@@ -89,11 +89,9 @@ export class HomePage implements OnInit {
 
     this.router.events
       .subscribe((event) => {
-        console.log('event',event, event instanceof NavigationEnd)
         if(event instanceof NavigationEnd) {
-          if (event.url.includes('/visits')) {
+          if (event.url.includes('/visit')) {
             this.showTabs.set(false);
-            console.log('showTabs',this.showTabs());
           } else {
             this.showTabs.set(true);
           }

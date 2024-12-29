@@ -35,6 +35,7 @@ export const routes: Routes = [
         path: '',
         loadChildren: () => import('./home/home-routs').then(r => r.NESTED_ROUTS),
       }
+
     ]
-  }
+  },
 ];

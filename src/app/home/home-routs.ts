@@ -16,4 +16,8 @@ export const NESTED_ROUTS: Routes = [
     loadComponent: () =>
       import('./settings/settings.page').then(c => c.SettingsPage),
   },
+  {
+    path: 'visitdetail/:id',
+    loadComponent: () => import('./visits/document-detail/document-detail.page').then( m => m.DocumentDetailPage),
+  }
 ];

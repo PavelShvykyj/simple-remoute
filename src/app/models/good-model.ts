@@ -8,3 +8,11 @@
     rest?: number,
     normalizedName:string
   }
+
+  export interface DocumentRecordGood {
+    id: string,
+    docId: string | undefined | null,
+    quontity: number,
+    price?: number,
+    total: number,
+  }
