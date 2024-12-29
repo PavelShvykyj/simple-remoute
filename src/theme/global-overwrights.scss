@@ -17,3 +17,10 @@
   font-size: larger;
   font-weight: bolder;
 }
+
+.form-block {
+    background-color: var(--ion-color-light-tint);
+    border: 1px solid;
+    border-color: var(-ion-text-color);
+    border-radius: 4px;
+}

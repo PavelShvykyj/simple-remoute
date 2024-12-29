@@ -11,10 +11,59 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <p>Navigate to price.</p>
+  <form class="ion-margin form-block" [formGroup]="documentHeaderForm">
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <app-address-autocomplete controlKey="visitAddress" controlLabel="Address of visit"></app-address-autocomplete>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-margin-bottom" offset-lg="2" size-lg="6" size-sm="10" offset-sm="1">
+          <ion-input
+            formControlName="comment"
+            enterkeyhint="next"
+            appAutoselect
+            color="medium"
+            label="Comment"
+            label-placement="floating"
+            fill="outline"
+            type="text"
+            helperText="Enter a comment (optional)"
+            clearInput="true">
+          </ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-margin-bottom" offset-lg="2" size-lg="6" size-sm="10" offset-sm="1">
+          <ion-input
+            formControlName="docDate"
+            enterkeyhint="next"
+            color="medium"
+            label="Date of visit"
+            label-placement="floating"
+            fill="outline"
+            type="date"
+            [required]="true"
+            helperText="required"
+            errorText="required"
+            clearInput="true">
+          </ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+  </form>
+
+  <ion-title></ion-title>
+  <!-- <p>Navigate to price.</p>
   <ion-nav-link router-direction="forward" [component]="priceDetail" >
     <ion-button>Navigate</ion-button>
-  </ion-nav-link>
+  </ion-nav-link> -->
 </ion-content>
 
 <ion-footer>
