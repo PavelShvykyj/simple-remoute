@@ -76,14 +76,13 @@ import { forkJoin, map, switchMap, tap, take, filter, combineLatest } from 'rxjs
     IonBreadcrumb,
   ],
 })
-export class PricePage implements OnDestroy {
+export class PricePage {
   private store = inject(Store);
   goodsView: WritableSignal<Good[]> = signal([]);
   folderTree: WritableSignal<Good[]> = signal([]);
 
 
   constructor() {
-    console.log('PRICE CREATION');
     addIcons({caretBack, home,chevronForwardOutline,searchOutline,chevronBackOutline,chevronForwardCircleOutline,homeOutline,folder,remove,closeOutline,checkmarkOutline});
 
     // ? display goods
@@ -120,9 +119,6 @@ export class PricePage implements OnDestroy {
     .subscribe((tree ) => {
       this.folderTree.set(tree);
     });
-  }
-  ngOnDestroy(): void {
-    console.log('PRICE DESTROID');
   }
 
   onGoodClick(good: Good) {

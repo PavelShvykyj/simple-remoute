@@ -15,9 +15,7 @@ import { DocumentListPage } from './document-list/document-list.page';
 export class VisitsPage {
   documentList = DocumentListPage
 
-  constructor() {
-    console.log('CREATE VISITS')
-   }
+  constructor() {}
 
 
 }

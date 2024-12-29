@@ -22,7 +22,6 @@ export class DocumentListPage  {
 
   constructor() {
     addIcons({closeOutline,checkmarkOutline,caretBack});
-    console.log("CREATE LIST");
   }
 
 
