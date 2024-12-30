@@ -38,4 +38,11 @@ export const routes: Routes = [
 
     ]
   },
+  {
+    path: 'home/visitdetail/:id',
+    loadComponent: () =>
+      import('./home/visits/document-detail/document-detail.page').then(
+        (m) => m.DocumentDetailPage
+      ),
+  },
 ];
