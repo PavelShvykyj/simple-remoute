@@ -49,7 +49,7 @@
                 </ion-icon>
               } @else {
                 @if(selectedGoods[good.id]; as selected) {
-                  <ion-badge slot="start"> {{ selected.quontity }} </ion-badge>
+                  <ion-badge (click)="onQuontityClick(selected.quontity, selected.id, good.name)" slot="start"> {{ selected.quontity }} </ion-badge>
                 } @else {
                   <ion-checkbox slot="start" [value]="good" checked="false" (ionChange)="onGoodSelect(good)"></ion-checkbox>
                 }

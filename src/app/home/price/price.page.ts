@@ -35,6 +35,7 @@ import {
   IonFabButton,
   IonFab,
   NavController,
+  ModalController,
   ActionSheetController } from '@ionic/angular/standalone';
 import {
   folder,
@@ -65,6 +66,7 @@ import {
   selectSearchValue,
 } from 'src/app/state/goods.selectors';
 import { switchMap, combineLatest } from 'rxjs';
+import { EditItemComponent } from 'src/app/components/edit-item/edit-item.component';
 
 @Component({
   selector: 'app-price',
@@ -104,6 +106,7 @@ import { switchMap, combineLatest } from 'rxjs';
 export class PricePage {
   private store = inject(Store);
   private actionSheetCtrl = inject(ActionSheetController);
+  public modalController = inject(ModalController);
   nav = inject(NavController);
   goodsView: WritableSignal<Good[]> = signal([]);
   folderTree: WritableSignal<Good[]> = signal([]);
@@ -199,6 +202,7 @@ export class PricePage {
         price: good.price,
         total: good.price ?? 0
       }
+      this.onQuontityClick(1, good.id, good.name);
   }
 
   async onShowActions() {
@@ -218,4 +222,31 @@ export class PricePage {
         break;
     }
   }
+
+  onQuontityClick(quontity: number, id: string, name: string) {
+    this.modalController.create({
+      component: EditItemComponent,
+      componentProps: {
+        'item': {
+          quontity: quontity,
+          id: id,
+          name: name
+        }
+      }
+    }).then(modalEl => {
+      modalEl.onWillDismiss().then(result =>
+        {
+          if (!result.data.canseled) {
+            if (result.data.quontity === 0 ) {
+              delete this.selectedGoods[result.data.id];
+            } else {
+              this.selectedGoods[result.data.id].quontity = result.data.quontity;
+            }
+          }
+        });
+      modalEl.present();
+    })
+  }
+
+
 }

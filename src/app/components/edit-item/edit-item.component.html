@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar class="primary-tint-toolbar">
+    <ion-title >Edit item {{ editedData()['name'] }}</ion-title>
+    <ion-avatar class="small-avatar ion-margin-start ion-margin-end" slot="start">
+      <img class="small-avatar__logo" alt="Logo" src="../../../assets/icon/white-logo-90.png" />
+    </ion-avatar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked"> Selected {{editedData()['quontity']}} </ion-label>
+        <ion-input
+          appAutoselect
+          #focusOnEnter
+          type="number"
+          formControlName="quontity"
+          clear-input=true
+          inputmode="decimal">
+        </ion-input>
+      </ion-item>
+    </ion-list>
+  </form>
+
+  <ion-grid>
+    <ion-row >
+      <ion-col >
+        <ion-button color='light' fill='solid' expand='block' (click)="OnAddClick(1)"> {{minus === -1 ? '-' : '+'}} 1 </ion-button>
+      </ion-col>
+      <ion-col  >
+        <ion-button color='light' fill='solid' expand='block' (click)="OnAddClick(2)"> {{minus === -1 ? '-' : '+'}} 2 </ion-button>
+      </ion-col>
+      <ion-col  >
+        <ion-button color='light' fill='solid' expand='block' (click)="OnAddClick(3)"> {{minus === -1 ? '-' : '+'}} 3 </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row >
+      <ion-col  >
+        <ion-button color='light' fill='solid' expand='block' (click)="OnAddClick(0.5)"> {{minus === -1 ? '-' : '+'}} 0.5 </ion-button>
+      </ion-col>
+      <ion-col  >
+        <ion-button color='light' fill='solid' expand='block' (click)="OnAddClick(50)"> {{minus === -1 ? '-' : '+'}} 50 </ion-button>
+      </ion-col  >
+      <ion-col  >
+        <ion-button color='light' fill='solid' expand='block' (click)="OnAddClick(100)"> {{minus === -1 ? '-' : '+'}} 100</ion-button>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-row>
+      <ion-col size="4"  > <ion-button color='medium' fill='solid' expand='block' (click)="SetMinus()"> +\- </ion-button></ion-col>
+      <ion-col size="8" ><ion-button color='medium' fill='solid' expand='block' (click)="EnterNumber()"> <small>Enter quontity</small></ion-button> </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col> </ion-col>
+      <ion-col> <ion-button  (click)="Cancel()" class="text-accent" size='large' expand='block' color='danger' > <ion-icon name="close-outline"></ion-icon></ion-button> </ion-col>
+      <ion-col> <ion-button  (click)="Save()" class="text-accent" size='large'   expand='block' color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button> </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color='light'>
+    <ion-buttons slot="end">
+      <ion-button  (click)="Cancel()" class="text-accent" size='large' expand='block' color='danger' > <ion-icon name="close-outline"></ion-icon></ion-button>
+      <ion-button  (click)="Save()" class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
