@@ -38,7 +38,6 @@ import { DEFOULT_REGION } from 'src/app/constants/defoult.values';
     IonCol,
     IonIcon,
     IonButton,
-    IonItem,
     IonInput,
   ],
 })

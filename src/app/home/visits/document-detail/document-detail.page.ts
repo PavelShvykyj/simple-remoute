@@ -16,7 +16,7 @@ import {
   IonAvatar,
   IonCol,
   IonGrid,
-  IonRow, IonModal, IonList, IonItem, IonLabel, NavController } from '@ionic/angular/standalone';
+  IonRow, IonModal, IonList, IonItem, IonLabel, ModalController, NavController } from '@ionic/angular/standalone';
 import { PricePage } from '../../price/price.page';
 import {
   caretBack, closeOutline, checkmarkOutline } from 'ionicons/icons';
@@ -25,6 +25,7 @@ import { AddressAutocompleteComponent } from 'src/app/components/address-autocom
 import { DocumentRecordGood } from 'src/app/models/good-model';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-document-detail',
   templateUrl: './document-detail.page.html',
@@ -33,8 +34,6 @@ import { map } from 'rxjs';
   imports: [
     IonLabel,
     IonItem,
-    IonList,
-    IonModal,
     IonRow,
     IonGrid,
     IonCol,
@@ -44,7 +43,6 @@ import { map } from 'rxjs';
     IonButtons,
     IonInput,
     IonBackButton,
-    IonNavLink,
     IonButton,
     IonContent,
     IonHeader,
@@ -53,12 +51,13 @@ import { map } from 'rxjs';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    PricePage,
     AddressAutocompleteComponent]
 })
-export class DocumentDetailPage  {
+export class DocumentDetailPage implements OnInit {
   priceDetail = PricePage;
   nav = inject(NavController);
+  router = inject(Router);
+  public modalController = inject(ModalController);
   documentHeaderForm = new FormGroup({
     comment: new FormControl('', { nonNullable: true }),
     docDate: new FormControl(new Date(), { nonNullable: true }),
@@ -83,6 +82,17 @@ export class DocumentDetailPage  {
     addIcons({closeOutline,checkmarkOutline,caretBack});
   }
 
+  ngOnInit(): void {
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras.state;
+    if (state) {
+      const parametrGoods = state['goods'];
+      if (parametrGoods) {
+        this.onSelectionChange(parametrGoods);
+      }
+    }
+  }
+
   onSelectionChange(event: Record<string, DocumentRecordGood>) {
     this.documentHeaderForm.get('goods')?.setValue(event);
   }
@@ -93,5 +103,26 @@ export class DocumentDetailPage  {
 
   onConfirm() {
     this.nav.navigateBack('home/price');
+  }
+
+  openSelectGoods() {
+        this.modalController.create({
+          component: PricePage,
+          componentProps: {
+            showFooter: true,
+            goodsToSelect: this.documentHeaderForm.get('goods')?.value,
+            selectedOnly: true
+          }
+        }).then(modalEl => {
+          modalEl.onWillDismiss().then(result =>
+            {
+              if (!result.data.canseled) {
+                if (result.data.goods) {
+                  this.onSelectionChange(result.data.goods);
+                }
+              }
+            });
+          modalEl.present();
+        })
   }
 }

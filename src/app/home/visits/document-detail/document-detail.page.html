@@ -73,7 +73,7 @@
 
       <ion-row>
         <ion-col  offset-lg="2" size-lg="6" size-sm="10" offset-sm="1">
-            <ion-item color="primary" [button]="true" [detail]="false" id="select-goods">
+            <ion-item (click)="openSelectGoods()" color="primary" [button]="true" [detail]="false" id="select-goods">
               <ion-label>Select goods</ion-label>
               <div slot="end" >total selected: {{ goodsTotal() }}</div>
             </ion-item>
@@ -84,7 +84,7 @@
   </form>
 </ion-content>
 
-<ion-modal trigger="select-goods" #modal>
+<!-- <ion-modal trigger="select-goods" #modal>
   <ng-template>
     <app-price
       (selectionCancel)="modal.dismiss()"
@@ -92,7 +92,7 @@
       [showFooter]="true">
     </app-price>
   </ng-template>
-</ion-modal>
+</ion-modal> -->
 
 
 <ion-footer class="fixed-bottom">

@@ -71,7 +71,7 @@
     </ion-row>
   </ion-grid>
 
-  @if(!showFooter()) {
+  @if(!showFooter) {
     <ion-fab class="ion-padding" vertical="bottom" horizontal="end" slot="fixed">
       <ion-fab-button (click)="onShowActions()" color='primary' class="fab">
         <ion-icon name="ellipsis-vertical"></ion-icon>
@@ -81,12 +81,12 @@
 
 </ion-content>
 
-@if(showFooter()) {
+@if(showFooter) {
   <ion-footer class="fixed-bottom">
     <ion-toolbar color='light'>
       <ion-buttons slot="end">
-        <ion-button (click)="selectionCancel.emit()" class="text-accent" size='large' expand='block' color='danger'> <ion-icon name="close-outline"></ion-icon></ion-button>
-        <ion-button (click)="selectionChange.emit(selectedGoods); " class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
+        <ion-button (click)="Cancel()" class="text-accent" size='large' expand='block' color='danger'> <ion-icon name="close-outline"></ion-icon></ion-button>
+        <ion-button (click)="Save()" class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-footer>

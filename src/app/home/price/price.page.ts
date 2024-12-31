@@ -1,7 +1,9 @@
 import {
   Component,
   inject,
+  Input,
   input,
+  OnInit,
   output,
   signal,
   WritableSignal,
@@ -35,6 +37,7 @@ import {
   IonFabButton,
   IonFab,
   NavController,
+  NavParams,
   ModalController,
   ActionSheetController } from '@ionic/angular/standalone';
 import {
@@ -103,16 +106,25 @@ import { EditItemComponent } from 'src/app/components/edit-item/edit-item.compon
     IonBreadcrumb
   ],
 })
-export class PricePage {
+export class PricePage  {
   private store = inject(Store);
   private actionSheetCtrl = inject(ActionSheetController);
   public modalController = inject(ModalController);
   nav = inject(NavController);
+  //navParams = inject(NavParams);
   goodsView: WritableSignal<Good[]> = signal([]);
   folderTree: WritableSignal<Good[]> = signal([]);
-  showFooter = input<boolean>(false);
-  selectionCancel = output();
-  selectionChange = output<Record<string, DocumentRecordGood>>();
+  @Input() showFooter = false;
+  @Input()
+  set selectedOnly(value: boolean) {
+    this.showSelectedOnly.set(value)
+  }
+
+  @Input()
+  set goodsToSelect(value: Record<string, DocumentRecordGood>) {
+    this.selectedGoods = {...value}
+  }
+
   selectedGoods: Record<string, DocumentRecordGood> = {};
   showSelectedOnly = signal(false);
   actions = {
@@ -183,14 +195,8 @@ export class PricePage {
     this.store.dispatch(GoodsActions.selectFolder({ id }));
   }
 
-
-
   onNameFilterInput(value?: string | null) {
     this.store.dispatch(GoodsActions.selectSearchValue({value: value ?? ''}))
-  }
-
-  onSelectionConfirm() {
-    this.selectionChange.emit(this.selectedGoods);
   }
 
   onGoodSelect(good: Good) {
@@ -213,7 +219,8 @@ export class PricePage {
   onActionClick(action: string) {
     switch (action) {
       case 'CREATE':
-        this.nav.navigateForward(['/home/visitdetail', '']);
+        this.nav.navigateForward(['/home/visitdetail', ''], { state: {goods: {...this.selectedGoods}}});
+        this.selectedGoods = {};
         break;
       case 'CHANGE_SHOW_SELECTED':
         this.showSelectedOnly.set(!this.showSelectedOnly())
@@ -248,5 +255,16 @@ export class PricePage {
     })
   }
 
+  Save() {
+    this.modalController.dismiss({
+      canseled: false,
+      goods: this.selectedGoods
+    });
+  }
 
+  Cancel() {
+    this.modalController.dismiss({
+      canseled: true
+    });
+  }
 }
