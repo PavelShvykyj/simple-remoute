@@ -111,7 +111,7 @@ export class DocumentDetailPage implements OnInit {
           componentProps: {
             showFooter: true,
             goodsToSelect: this.documentHeaderForm.get('goods')?.value,
-            selectedOnly: true
+            selectedOnly: Object.keys(this.documentHeaderForm.get('goods')!.value).length > 0
           }
         }).then(modalEl => {
           modalEl.onWillDismiss().then(result =>

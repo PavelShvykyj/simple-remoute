@@ -84,6 +84,8 @@
 @if(showFooter) {
   <ion-footer class="fixed-bottom">
     <ion-toolbar color='light'>
+      <ion-toggle class="ion-margin-start" (ionChange)="showSelectedOnly.set($event.detail.checked)" slot="start" [checked]="showSelectedOnly()">show selected only</ion-toggle>
+
       <ion-buttons slot="end">
         <ion-button (click)="Cancel()" class="text-accent" size='large' expand='block' color='danger'> <ion-icon name="close-outline"></ion-icon></ion-button>
         <ion-button (click)="Save()" class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>

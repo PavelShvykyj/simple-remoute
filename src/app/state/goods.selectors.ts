@@ -55,3 +55,15 @@ export const selectGoodsByNamePartial = (searchBy: string) =>
   createSelector(selectAllGoods, (goods) => {
     return goods.filter((good) => good.normalizedName.search(searchBy) !== -1)
   });
+
+export const selectGoodsByIds = (serchIds: string[]) =>
+  createSelector(selectGoodsEntities, (goodEntities) => {
+    const result: Good[]  = [];
+    serchIds.forEach(id => {
+      const good = goodEntities[id];
+      if (good) {
+        result.push(good)
+      }
+    })
+    return result;
+  });

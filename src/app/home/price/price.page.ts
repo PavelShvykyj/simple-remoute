@@ -39,7 +39,7 @@ import {
   NavController,
   NavParams,
   ModalController,
-  ActionSheetController } from '@ionic/angular/standalone';
+  ActionSheetController, IonToggle } from '@ionic/angular/standalone';
 import {
   folder,
   caretBack,
@@ -60,15 +60,16 @@ import {
 import { addIcons } from 'ionicons';
 import { select, Store } from '@ngrx/store';
 import { DocumentRecordGood, Good } from 'src/app/models/good-model';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import {
   selectCurrentFolderID,
   selectFolderTree,
   selectGoodsByFolder,
+  selectGoodsByIds,
   selectGoodsByNamePartial,
   selectSearchValue,
 } from 'src/app/state/goods.selectors';
-import { switchMap, combineLatest } from 'rxjs';
+import { switchMap, combineLatest, of } from 'rxjs';
 import { EditItemComponent } from 'src/app/components/edit-item/edit-item.component';
 
 @Component({
@@ -76,7 +77,7 @@ import { EditItemComponent } from 'src/app/components/edit-item/edit-item.compon
   templateUrl: './price.page.html',
   styleUrls: ['./price.page.scss'],
   standalone: true,
-  imports: [
+  imports: [IonToggle,
     IonFab,
     IonFabButton,
     IonBadge,
@@ -152,17 +153,30 @@ export class PricePage  {
 
     // ? display goods
     combineLatest(
-      [this.store.pipe(select(selectCurrentFolderID)),
-      this.store.pipe(select(selectSearchValue))]
+      [
+        this.store.pipe(select(selectCurrentFolderID)),
+        this.store.pipe(select(selectSearchValue)),
+        toObservable(this.showSelectedOnly)
+      ]
     ).pipe(
       switchMap(viewParametrs => {
-          const partialName = viewParametrs[1];
           const curretFolder = viewParametrs[0];
+          const partialName = viewParametrs[1];
+          const onlySelected = viewParametrs[2];
+          const selectedIds = Object.keys(this.selectedGoods);
+          if (onlySelected && selectedIds.length > 0) {
+            return this.store.pipe(select(selectGoodsByIds(selectedIds)))
+          }
+
           if (partialName.length === 0) {
             return this.store.pipe(select(selectGoodsByFolder(curretFolder)))
-          } else {
+          }
+
+          if (partialName.length !== 0){
             return this.store.pipe(select(selectGoodsByNamePartial(partialName)))
           }
+
+          return of([])
       }),
       takeUntilDestroyed()
     )
