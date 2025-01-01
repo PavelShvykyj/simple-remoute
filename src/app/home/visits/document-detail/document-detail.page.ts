@@ -98,11 +98,12 @@ export class DocumentDetailPage implements OnInit {
   }
 
   onReject() {
-    this.nav.navigateBack('home/price');
+    //this.nav.pop();
+    //this.nav.navigateBack('home/price');
   }
 
   onConfirm() {
-    this.nav.navigateBack('home/price');
+    //this.nav.pop();
   }
 
   openSelectGoods() {

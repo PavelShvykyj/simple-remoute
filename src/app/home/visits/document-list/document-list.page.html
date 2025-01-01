@@ -11,11 +11,26 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Coming soon</ion-card-title>
+      <ion-card-subtitle>not implemented</ion-card-subtitle>
+    </ion-card-header>
 
-  <p>Navigate to detail page.</p>
-  <ion-nav-link router-direction="forward" [component]="documentDetail" [componentProps]="{ id: 'bfasd34058' }">
-    <ion-button>Navigate</ion-button>
-  </ion-nav-link>
+    <ion-card-content>
+      Here will be list of visit documents
+    </ion-card-content>
+
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-nav-link router-direction="forward" [component]="documentDetail" [componentProps]="{ id: 'bfasd34058' }">
+          <ion-button  size="small" color="medium">Create new visit</ion-button>
+        </ion-nav-link>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-card>
+
+
 
 </ion-content>
 
