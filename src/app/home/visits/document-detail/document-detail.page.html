@@ -5,7 +5,7 @@
       <img class="small-avatar__logo" alt="Logo" src="../../../assets/icon/white-logo-90.png" />
     </ion-avatar>
     <ion-buttons slot="end">
-      <ion-back-button color="light" text="BACK" icon="caret-back"></ion-back-button>
+      <ion-back-button #backbtn color="light" text="BACK" icon="caret-back"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -65,7 +65,7 @@
             label="Date of visit"
             label-placement="floating"
             fill="outline"
-            type="date"
+            type="datetime-local"
             [required]="true"
             helperText="required"
             errorText="required"

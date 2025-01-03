@@ -12,6 +12,8 @@ import { GoodsEffects } from './app/state/good.effects';
 import { goodsReducer } from './app/state/goods.reducer';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { isDevMode } from '@angular/core';
+import { visitReducer } from './app/state/documents/doc.reducer';
+import { DocsEffects } from './app/state/documents/doc.effects';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBRcOZ52d_YPrp2q5XVRYez_xVN1yf5BDI",
@@ -32,7 +34,8 @@ bootstrapApplication(AppComponent, {
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     provideStore({
-      goods: goodsReducer
+      goods: goodsReducer,
+      visits: visitReducer
     }),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
@@ -42,6 +45,6 @@ bootstrapApplication(AppComponent, {
       traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
       connectInZone: true // If set to true, the connection is established within the Angular zone
     }),
-    provideEffects([GoodsEffects]),
+    provideEffects([GoodsEffects, DocsEffects]),
   ],
 });

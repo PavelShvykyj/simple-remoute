@@ -11,34 +11,44 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Coming soon</ion-card-title>
-      <ion-card-subtitle>not implemented</ion-card-subtitle>
-    </ion-card-header>
 
-    <ion-card-content>
-      Here will be list of visit documents
-    </ion-card-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col offset-lg="4" size-lg="4" size-sm="10" offset-sm="1">
+        <ion-list>
 
-    <ion-toolbar>
-      <ion-buttons slot="end">
-        <ion-nav-link router-direction="forward" [component]="documentDetail" [componentProps]="{ id: 'bfasd34058' }">
-          <ion-button  size="small" color="medium">Create new visit</ion-button>
-        </ion-nav-link>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-card>
+          @for (visit of visitsView(); track $index) {
+            <ion-item>
+              <ion-nav-link router-direction="forward" [component]="documentDetail" [componentProps]="{ id: visit.id}">
+                <ion-label> {{ visit.confirmedStreet.length > 0 ? visit.confirmedStreet : visit.street  }}</ion-label>
 
-
+              </ion-nav-link>
+              <ion-note slot="end"> {{ visit.docDate | date: 'YYYY-MM-dd hh:mm:ss' }} </ion-note>
+              <ion-button (click)="onVisitDelete(visit)" slot="start">
+                <ion-icon slot="icon-only" name="trash"> </ion-icon>
+              </ion-button>
+            </ion-item>
+          }
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
 
 <ion-footer>
   <ion-toolbar color='light'>
+    <ion-buttons slot="start">
+      <ion-nav-link router-direction="forward" [component]="documentDetail" [componentProps]="{ id: '', nav }">
+        <ion-button  size="small" color="medium">Create new visit</ion-button>
+      </ion-nav-link>
+    </ion-buttons>
+
+
     <ion-buttons slot="end">
       <ion-button class="text-accent" size='large' expand='block' color='danger'> <ion-icon name="close-outline"></ion-icon></ion-button>
       <ion-button class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
+

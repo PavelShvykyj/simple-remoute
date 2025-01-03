@@ -12,6 +12,7 @@ import * as GoodsActions from '../../state/goods.actions';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
+  IonNav,
   IonContent,
   IonHeader,
   IonTitle,
@@ -71,6 +72,7 @@ import {
 } from 'src/app/state/goods.selectors';
 import { switchMap, combineLatest, of } from 'rxjs';
 import { EditItemComponent } from 'src/app/components/edit-item/edit-item.component';
+import * as DocsActions from '../../state/documents/doc.actions';
 
 @Component({
   selector: 'app-price',
@@ -216,7 +218,8 @@ export class PricePage  {
   onGoodSelect(good: Good) {
     this.selectedGoods[good.id] =
       {
-        docId: undefined,
+        docId: '',
+        cloudId: '',
         id: good.id,
         quontity: 1,
         price: good.price,
@@ -233,6 +236,7 @@ export class PricePage  {
   onActionClick(action: string) {
     switch (action) {
       case 'CREATE':
+        this.store.dispatch(DocsActions.setVisitOnEdit({id: ''}));
         this.nav.navigateForward(['/home/visitdetail', ''], { state: {goods: {...this.selectedGoods}}});
         this.selectedGoods = {};
         break;

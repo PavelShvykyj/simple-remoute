@@ -9,8 +9,15 @@
     normalizedName:string
   }
 
+  export interface ClaudGood {
+    goodId: string,
+    quontity: number,
+    price: number
+  }
+
   export interface DocumentRecordGood {
-    id: string,
+    id: string, // todo: rename to goodId
+    cloudId: string,
     docId: string | undefined | null,
     quontity: number,
     price?: number,

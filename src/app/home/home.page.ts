@@ -29,14 +29,18 @@ import {
   lockOpenOutline,
   appsOutline,
   settingsOutline,
+  chevronDownCircle,
 } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { NavigationEnd, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import * as GoodsActions from '../state/goods.actions';
+import * as DocsActions from '../state/documents/doc.actions';
+
 import { selectIsLoaded } from '../state/goods.selectors';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
+import { selectIsVisitsLoaded } from '../state/documents/doc.selectors';
 
 @Component({
   selector: 'app-home',
@@ -63,13 +67,20 @@ export class HomePage implements OnInit {
   router: Router = inject(Router);
   navigator = inject(NavController);
   store: Store = inject(Store);
+
   isLoded: Signal<boolean> = toSignal(this.store.pipe(select(selectIsLoaded)), {
     initialValue: false,
   });
+
+  isVisitsLoaded : Signal<boolean> = toSignal(this.store.pipe(select(selectIsVisitsLoaded)), {
+    initialValue: false,
+  });
+
   showTabs: WritableSignal<boolean> = signal(true);
 
   constructor() {
     addIcons({
+      chevronDownCircle,
       settingsOutline,
       barChartOutline,
       lockClosedOutline,
@@ -86,6 +97,8 @@ export class HomePage implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(GoodsActions.syncGoods());
+    this.store.dispatch(DocsActions.syncVisits());
+
 
     this.router.events
       .subscribe((event) => {

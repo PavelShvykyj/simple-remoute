@@ -3,5 +3,7 @@ export interface Address {
       region: string,
       city: string,
       street: string,
+      confirmedStreet: string
       house: string,
+      flat: string
 }

@@ -1,4 +1,4 @@
-@if(isLoded()) {
+@if(isLoded() && isVisitsLoaded()) {
   <ion-tabs >
     <ion-tab-bar [ngClass]="{ hidden: !showTabs() }" slot="bottom" color="light">
       <ion-tab-button tab="price">
@@ -26,11 +26,28 @@
 @else {
   <ion-content [fullscreen]="true">
     <ion-grid class="full-height">
-      <ion-row class="full-height ion-align-items-center">
+      <ion-row class=" ion-align-items-center">
         <ion-col offset-lg="4" size-lg="4" size-sm="10" offset-sm="1">
           <ion-item lines="none">
             <ion-label>Syncronization of goods</ion-label>
-            <ion-spinner name="dots"></ion-spinner>
+            @if(!isLoded()) {
+              <ion-spinner slot="end" name="dots"></ion-spinner>
+            } @else {
+              <ion-icon color="success" slot="end" name="chevron-down-circle"></ion-icon>
+            }
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-align-items-center">
+        <ion-col offset-lg="4" size-lg="4" size-sm="10" offset-sm="1">
+          <ion-item lines="none">
+            <ion-label>Syncronization of visits</ion-label>
+            @if(!isVisitsLoaded()) {
+              <ion-spinner slot="end" name="dots"></ion-spinner>
+            } @else {
+              <ion-icon color="success" slot="end" name="chevron-down-circle"></ion-icon>
+            }
           </ion-item>
         </ion-col>
       </ion-row>

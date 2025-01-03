@@ -5,7 +5,7 @@ import { Good } from '../models/good-model';
 export const selectGoodsState = createFeatureSelector<GoodsState>('goods');
 export const { selectAll, selectEntities } = goodsAdapter.getSelectors();
 export const selectAllGoods = createSelector(selectGoodsState, selectAll);
-export const selectGoodsEntities = createSelector(selectGoodsState, selectEntities);;
+export const selectGoodsEntities = createSelector(selectGoodsState, selectEntities);
 export const selectCurrentFolderID = createSelector(
   selectGoodsState,
   (state) => state.currentFolder
