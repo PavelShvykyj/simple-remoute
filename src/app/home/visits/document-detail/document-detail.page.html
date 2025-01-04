@@ -15,13 +15,14 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <app-address-autocomplete controlKey="visitAddress" controlLabel="Address of visit"></app-address-autocomplete>
+          <app-address-autocomplete tabindex="1" controlKey="visitAddress" controlLabel="Address of visit"></app-address-autocomplete>
         </ion-col>
       </ion-row>
 
       <ion-row>
         <ion-col class="ion-margin-bottom" offset-lg="2" size-lg="6" size-sm="10" offset-sm="1">
           <ion-input
+            tabindex="4"
             appAutoselect
             formControlName="contract"
             enterkeyhint="next"
@@ -40,6 +41,7 @@
       <ion-row>
         <ion-col class="ion-margin-bottom" offset-lg="2" size-lg="6" size-sm="10" offset-sm="1">
           <ion-input
+            tabindex="5"
             appAutoselect
             formControlName="comment"
             enterkeyhint="next"
@@ -58,8 +60,9 @@
       <ion-row>
         <ion-col class="ion-margin-bottom" offset-lg="2" size-lg="6" size-sm="10" offset-sm="1">
           <ion-input
-            appAutoselect
-            formControlName="docDate"
+            [value]="docDateValueFormatted()"
+            tabindex="6"
+            (ionChange)="onDateChange($event)"
             enterkeyhint="next"
             color="medium"
             label="Date of visit"
@@ -71,12 +74,24 @@
             errorText="required"
             clearInput="true">
           </ion-input>
+
+          <!-- <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime
+                (ionChange)="onDateChange($event)"
+                [value]="docDateValueFormatted()"
+                id="datetime">
+              </ion-datetime>
+            </ng-template>
+          </ion-modal> -->
         </ion-col>
       </ion-row>
 
       <ion-row>
         <ion-col  offset-lg="2" size-lg="6" size-sm="10" offset-sm="1">
-            <ion-item (click)="openSelectGoods()" color="primary" [button]="true" [detail]="false" id="select-goods">
+            <ion-item tabindex="7" (click)="openSelectGoods()" color="primary" [button]="true" [detail]="false" id="select-goods">
               <ion-label>Select goods</ion-label>
               <div slot="end" >total selected: {{ goodsTotal() }}</div>
             </ion-item>
@@ -87,22 +102,11 @@
   </form>
 </ion-content>
 
-<!-- <ion-modal trigger="select-goods" #modal>
-  <ng-template>
-    <app-price
-      (selectionCancel)="modal.dismiss()"
-      (selectionChange)="onSelectionChange($event); modal.dismiss()"
-      [showFooter]="true">
-    </app-price>
-  </ng-template>
-</ion-modal> -->
-
-
 <ion-footer class="fixed-bottom">
   <ion-toolbar color='light'>
     <ion-buttons slot="end">
       <ion-button  (click)="onReject()" class="text-accent" size='large' expand='block' color='danger'> <ion-icon name="close-outline"></ion-icon></ion-button>
-      <ion-button  (click)="onConfirm()" class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
+      <ion-button   (click)="onConfirm()" class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>

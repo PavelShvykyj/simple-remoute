@@ -3,7 +3,14 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { IndexedDBService } from '../../services/db-indexed.service';
 import * as DocsActions from './doc.actions';
 import { from, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, take } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  map,
+  mergeMap,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { FireDBService } from '../../services/db-firebase.service';
 import { NotificationService } from '../../services/notification.service';
 
@@ -52,7 +59,12 @@ export class DocsEffects {
   addVisit$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DocsActions.addVisit),
-      switchMap((actionResult) => this.firebaseDBService.AddVisit(actionResult).pipe(take(1))),
+      switchMap((actionResult) =>
+        from(this.firebaseDBService.AddVisit(actionResult)).pipe(
+          switchMap((actionResult) => actionResult),
+          take(1),
+        )
+      ),
       catchError((error) => {
         this.notificator.NotificateError('error on add visit to cloud');
         console.error('error on get visits from cloud', error);
@@ -60,10 +72,10 @@ export class DocsEffects {
       }),
       map((actionResult) => {
         if (actionResult) {
-          this.notificator.NotificateSuccess('Visit is saved')
-          return DocsActions.addVisitSucces(actionResult)
+          this.notificator.NotificateSuccess('Visit is saved');
+          return DocsActions.addVisitSucces(actionResult);
         }
-        return DocsActions.addVisitFailure
+        return DocsActions.addVisitFailure;
       })
     )
   );
@@ -71,7 +83,9 @@ export class DocsEffects {
   removeVisit$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DocsActions.deleteVisit),
-      switchMap((actionResult) => this.firebaseDBService.RemoveVisit(actionResult.id).pipe(take(1))),
+      switchMap((actionResult) =>
+        this.firebaseDBService.RemoveVisit(actionResult.id).pipe(take(1))
+      ),
       catchError((error) => {
         this.notificator.NotificateError('error on remove visit to cloud');
         console.error('error on get visits from cloud', error);
@@ -79,12 +93,11 @@ export class DocsEffects {
       }),
       map((actionResult) => {
         if (actionResult) {
-          this.notificator.NotificateSuccess('Visit is removed')
-          return DocsActions.deleteVisitSucces(actionResult)
+          this.notificator.NotificateSuccess('Visit is removed');
+          return DocsActions.deleteVisitSucces(actionResult);
         }
-        return DocsActions.deleteVisitFailure
+        return DocsActions.deleteVisitFailure;
       })
     )
   );
-
 }

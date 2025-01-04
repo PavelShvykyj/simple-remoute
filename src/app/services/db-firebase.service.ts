@@ -2,20 +2,22 @@ import { inject, Injectable } from '@angular/core';
 import {
   Database,
   ref,
+  get,
   query,
   orderByChild,
   startAfter,
   listVal,
   push,
   update,
-  remove
-
+  remove,
+  ThenableReference,
+  DatabaseReference,
+  set,
 } from '@angular/fire/database';
 import { from, map, Observable, of, switchMap } from 'rxjs';
 import { ClaudGood, DocumentRecordGood, Good } from '../models/good-model';
 import { search } from 'ionicons/icons';
 import { CloudVisit, Visit } from '../models/visit.model';
-
 
 @Injectable({
   providedIn: 'root',
@@ -58,38 +60,54 @@ export class FireDBService {
     );
   }
 
-  AddVisit(data: { visit: Visit, goods: DocumentRecordGood[] }) {
-    if (data.visit.id.length !== 0) {
-      // ? block to change existing so far
-      return of(data);
-    }
-
-
+  async AddVisit(data: { visit: Visit; goods: DocumentRecordGood[] }) {
     let dataUpdated = {
-      visit: {...data.visit},
-      goods: [...data.goods]
+      visit: { ...data.visit },
+      goods: [...data.goods],
+    };
+
+    let newVisitRef = ref(this.fdb, `visits/${data.visit.id}`);
+    let visitExists =
+      data.visit.id.length !== 0 && (await get(newVisitRef)).exists();
+    if (!visitExists) {
+      newVisitRef = push(this.visitsRef, {...dataUpdated.visit, docDate: dataUpdated.visit.docDate.getTime()});
+      dataUpdated.visit.id = newVisitRef.key!;
+    } else {
+      update(newVisitRef, dataUpdated.visit);
     }
-    const newVisitRef = push(this.visitsRef,dataUpdated.visit);
-    const newVistGoodsRef = ref(this.fdb,`visits/${newVisitRef.key}/goods`);
-    dataUpdated.visit.id = newVisitRef.key!;
+
+    const newVistGoodsRef = ref(this.fdb, `visits/${newVisitRef.key}/goods`);
     const visitGoodsClaudData: { [key: string]: ClaudGood } = {};
-    dataUpdated.goods = dataUpdated.goods.map(good => {
-      const newVisitGoodKey = push(newVistGoodsRef).key;
+    dataUpdated.goods = dataUpdated.goods.map((good) => {
+      const newVisitGoodKey =
+        good.cloudId.length > 0 ? good.cloudId : push(newVistGoodsRef).key;
 
       visitGoodsClaudData[newVisitGoodKey!] = {
         goodId: good.id,
         quontity: good.quontity,
-        price: good.price ?? 0
-      }
-      return {...good, cloudId: newVisitGoodKey!, docId: dataUpdated.visit.id } })
-    return from(update(newVistGoodsRef, visitGoodsClaudData)).pipe(map(()=> {return dataUpdated}))
+        price: good.price ?? 0,
+      };
+      return {
+        ...good,
+        cloudId: newVisitGoodKey!,
+        docId: dataUpdated.visit.id,
+      };
+    });
+    return from(set(newVistGoodsRef, visitGoodsClaudData)).pipe(
+      map(() => {
+        return dataUpdated;
+      })
+    );
   }
 
   RemoveVisit(id: string) {
-    const visitRef = ref(this.fdb,`visits/${id}`);
-    return from(remove(visitRef)).pipe(map(()=> {return {id}}))
+    const visitRef = ref(this.fdb, `visits/${id}`);
+    return from(remove(visitRef)).pipe(
+      map(() => {
+        return { id };
+      })
+    );
   }
-
 
   helperMapCloudVisitToStateResult(claudVisits: CloudVisit[]): {
     headers: Visit[];
@@ -104,7 +122,6 @@ export class FireDBService {
       const cGoods = cVisit.goods ? { ...cVisit.goods } : {};
       const visit: Visit = { ...cVisit, docDate: new Date(cVisit.docDate) };
       mapped.headers.push(visit);
-
 
       const keys = Object.keys(cGoods);
       keys.forEach((key) => {

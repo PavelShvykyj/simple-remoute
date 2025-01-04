@@ -124,11 +124,11 @@ export class PricePage  {
   }
 
   @Input()
-  set goodsToSelect(value: Record<string, DocumentRecordGood>) {
+  set goodsToSelect(value: {[key:string]:DocumentRecordGood}) {
     this.selectedGoods = {...value}
   }
 
-  selectedGoods: Record<string, DocumentRecordGood> = {};
+  selectedGoods: {[key:string]:DocumentRecordGood} = {};
   showSelectedOnly = signal(false);
   actions = {
     header: 'Choose action :',
@@ -262,10 +262,13 @@ export class PricePage  {
       modalEl.onWillDismiss().then(result =>
         {
           if (!result.data.canseled) {
-            if (result.data.quontity === 0 ) {
+            if (result.data.quontity === 0 || !result.data.quontity) {
               delete this.selectedGoods[result.data.id];
             } else {
-              this.selectedGoods[result.data.id].quontity = result.data.quontity;
+              this.selectedGoods[result.data.id] = {
+                ...this.selectedGoods[result.data.id],
+                quontity: result.data.quontity
+              };
             }
           }
         });

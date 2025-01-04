@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, DestroyRef, ViewContainerRef, Signal, output, input, Input, AfterViewInit, WritableSignal, signal, effect, Inject, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ControlContainer, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ControlContainer, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators, ValueChangeEvent } from '@angular/forms';
 import {
   IonContent,
   IonInput,
@@ -16,7 +16,7 @@ import {
   IonAvatar,
   IonCol,
   IonGrid,
-  IonRow, IonModal, IonList, IonItem, IonLabel, ModalController, NavController, IonNav } from '@ionic/angular/standalone';
+  IonRow, IonModal, IonList, IonItem, IonLabel, ModalController, NavController, IonNav, IonDatetime, IonDatetimeButton } from '@ionic/angular/standalone';
 import { PricePage } from '../../price/price.page';
 import {
   caretBack, closeOutline, checkmarkOutline } from 'ionicons/icons';
@@ -38,6 +38,9 @@ import { Address } from 'src/app/models/address.model';
   styleUrls: ['./document-detail.page.scss'],
   standalone: true,
   imports: [
+    IonDatetimeButton,
+    IonDatetime,
+    IonModal,
     IonLabel,
     IonItem,
     IonRow,
@@ -75,6 +78,16 @@ export class DocumentDetailPage implements OnInit {
     contract: new FormControl('', { nonNullable: true }),
     goods: new FormControl<Record<string, DocumentRecordGood>>({}, { nonNullable: true }),
   })
+  docDateControl = this.documentHeaderForm.get('docDate')! as FormControl<Date>;
+  docDateValueFormatted = toSignal(this.docDateControl.valueChanges.pipe(map(value => {
+    if (value) {
+        return value.toISOString().slice(0, 16)
+    } else {
+      return ""
+    }
+  })), {initialValue: new Date().toISOString()});
+
+  //docDateFormatted = new FormControl<string>(new Date().toISOString(), { nonNullable: true })
 
   goodsTotal: Signal<number> = toSignal(
     this.documentHeaderForm.get('goods')!
@@ -163,12 +176,18 @@ export class DocumentDetailPage implements OnInit {
 
   }
 
+  onDateChange(event: any) {
+    const selectedDateString = event.detail.value;
+    const selectedDate = new Date(selectedDateString);
+    this.docDateControl.patchValue( selectedDate );
+  }
+
   openSelectGoods() {
         this.modalController.create({
           component: PricePage,
           componentProps: {
             showFooter: true,
-            goodsToSelect: this.documentHeaderForm.get('goods')?.value,
+            goodsToSelect: {...this.documentHeaderForm.get('goods')?.value},
             selectedOnly: Object.keys(this.documentHeaderForm.get('goods')!.value).length > 0
           }
         }).then(modalEl => {
@@ -191,11 +210,10 @@ export class DocumentDetailPage implements OnInit {
       this.parametrGoods = {};
       return;
     }
-
     const formated = {
       id: value.id,
       comment: value.comment,
-      docDate: value.docDate,
+      docDate: new Date(value.docDate),
       contract: value.contract,
       goods: value.goods,
       visitAddress: {

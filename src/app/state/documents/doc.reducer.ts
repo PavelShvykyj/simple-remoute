@@ -49,9 +49,10 @@ export const visitReducer = createReducer(
   }),
 
   on(VisitActions.addVisitSucces, (state, {visit, goods}) => {
-    return { ...state,
-      visits: visitsAdapter.addOne(visit,state.visits),
-      visitsGoods: visitGoodsAdapter.addMany(goods,state.visitsGoods),
+    const clearState = removeVisitHelper(visit.id, state);
+    return { ...clearState,
+      visits: visitsAdapter.addOne(visit,clearState.visits),
+      visitsGoods: visitGoodsAdapter.addMany(goods,clearState.visitsGoods),
       editedVisitId: visit.id
     };
   }),
@@ -67,13 +68,7 @@ export const visitReducer = createReducer(
     };
   }),
   on(VisitActions.deleteVisitSucces, (state, { id }) => {
-    const visitGoodsIds = state.visitsGoods.ids.filter(gid => {
-      return state.visitsGoods.entities[gid]?.docId === id
-    }).map(el => el.toString());
-    return { ...state,
-      visits: visitsAdapter.removeOne(id, state.visits),
-      visitsGoods: visitGoodsAdapter.removeMany(visitGoodsIds, state.visitsGoods)
-    };
+    return removeVisitHelper(id, state);
   }),
   on(VisitActions.updateVisitGoodsSucces, (state, { goods }) => {
     return { ...state,
@@ -83,3 +78,13 @@ export const visitReducer = createReducer(
 
 
 );
+
+function removeVisitHelper(id: string, state: DocumentsState): DocumentsState {
+  const visitGoodsIds = state.visitsGoods.ids.filter(gid => {
+    return state.visitsGoods.entities[gid]?.docId === id
+  }).map(el => el.toString());
+  return { ...state,
+    visits: visitsAdapter.removeOne(id, state.visits),
+    visitsGoods: visitGoodsAdapter.removeMany(visitGoodsIds, state.visitsGoods)
+  };
+}

@@ -19,8 +19,8 @@
 
           @for (visit of visitsView(); track $index) {
             <ion-item>
-              <ion-nav-link router-direction="forward" [component]="documentDetail" [componentProps]="{ id: visit.id}">
-                <ion-label> {{ visit.confirmedStreet.length > 0 ? visit.confirmedStreet : visit.street  }}</ion-label>
+              <ion-nav-link router-direction="forward" [component]="documentDetail" [componentProps]="{ id: visit.id, nav}">
+                <ion-label> {{ visit.confirmedStreet.length > 0 ? visit.confirmedStreet : visit.street  }} {{visit.house}} / {{visit.flat}} </ion-label>
 
               </ion-nav-link>
               <ion-note slot="end"> {{ visit.docDate | date: 'YYYY-MM-dd hh:mm:ss' }} </ion-note>
