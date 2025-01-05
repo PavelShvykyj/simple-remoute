@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AlertController, IonNav, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonNavLink, IonButton, IonAvatar, IonFooter, IonIcon, IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonItem, IonGrid, IonRow, IonCol, IonList, IonNote, IonAlert } from '@ionic/angular/standalone';
+import { AlertController, NavController, IonNav, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonNavLink, IonButton, IonAvatar, IonFooter, IonIcon, IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonItem, IonGrid, IonRow, IonCol, IonList, IonNote, IonAlert } from '@ionic/angular/standalone';
 
 import {
   caretBack, closeOutline, checkmarkOutline, trash } from 'ionicons/icons';
@@ -28,6 +28,8 @@ export class DocumentListPage  {
   alertController =  inject(AlertController);
   visitsView: WritableSignal<Visit[]> = signal([]);
   nav = inject(IonNav);
+  navCtrl = inject(NavController);
+
   constructor() {
     addIcons({closeOutline,checkmarkOutline,caretBack, trash});
 
@@ -53,4 +55,7 @@ export class DocumentListPage  {
     await alert.present();
   }
 
+  goBack() {
+    this.navCtrl.back();
+  }
 }

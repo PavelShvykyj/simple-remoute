@@ -38,16 +38,16 @@
 
 <ion-footer>
   <ion-toolbar color='light'>
-    <ion-buttons slot="start">
+    <ion-buttons slot="end">
       <ion-nav-link router-direction="forward" [component]="documentDetail" [componentProps]="{ id: '', nav }">
-        <ion-button  size="small" color="medium">Create new visit</ion-button>
+        <ion-button  size="small" color="dark">Create new visit</ion-button>
       </ion-nav-link>
     </ion-buttons>
 
 
     <ion-buttons slot="end">
-      <ion-button class="text-accent" size='large' expand='block' color='danger'> <ion-icon name="close-outline"></ion-icon></ion-button>
-      <ion-button class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
+      <ion-button (click)="goBack()" class="text-accent" size='large' expand='block' color='danger'> <ion-icon name="close-outline"></ion-icon></ion-button>
+      <ion-button (click)="goBack()" class="text-accent" size='large'  color='success' > <ion-icon  name="checkmark-outline"></ion-icon></ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
