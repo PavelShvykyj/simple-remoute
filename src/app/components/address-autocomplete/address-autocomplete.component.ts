@@ -15,7 +15,7 @@ import {
 import { addIcons } from 'ionicons';
 import { chevronDownCircle, closeCircle, searchOutline } from 'ionicons/icons';
 import { map } from 'rxjs';
-import { DEFOULT_REGION } from 'src/app/constants/defoult.values';
+import { DEFAULT_REGION } from 'src/app/constants/default.values';
 
 @Component({
   selector: 'app-address-autocomplete',
@@ -53,9 +53,9 @@ export class AddressAutocompleteComponent  implements OnInit, OnDestroy {
 
 
   addressForm = new FormGroup({
-    country: new FormControl(DEFOULT_REGION.country, { nonNullable: true }),
-    region: new FormControl(DEFOULT_REGION.region, { nonNullable: true }),
-    city: new FormControl(DEFOULT_REGION.city, { nonNullable: true }),
+    country: new FormControl(DEFAULT_REGION.country, { nonNullable: true }),
+    region: new FormControl(DEFAULT_REGION.region, { nonNullable: true }),
+    city: new FormControl(DEFAULT_REGION.city, { nonNullable: true }),
     street: new FormControl('', { nonNullable: true, validators: [Validators.required]}  ),
     confirmedStreet: new FormControl('', { nonNullable: true, validators: [Validators.required] }  ),
     house: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
