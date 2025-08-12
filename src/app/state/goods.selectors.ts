@@ -36,7 +36,7 @@ export const selectFolderTree = (id: string) =>
         //folderTree.push(currentParent);
         parentID = currentParent.parentid;
       } else {
-        parentID === '';
+        parentID = '';
       }
     }
     return folderTree;
