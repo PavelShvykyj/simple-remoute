@@ -29,7 +29,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { selectVisitOnEditId, selectVisitWithGoods } from 'src/app/state/documents/doc.selectors';
 import { FormVisit, Visit } from 'src/app/models/visit.model';
-import { DEFOULT_REGION } from 'src/app/constants/defoult.values';
+import { DEFAULT_REGION } from 'src/app/constants/default.values';
 import * as DocsActions from '../../../state/documents/doc.actions';
 import { Address } from 'src/app/models/address.model';
 @Component({
@@ -217,9 +217,9 @@ export class DocumentDetailPage implements OnInit {
       contract: value.contract,
       goods: value.goods,
       visitAddress: {
-        country: DEFOULT_REGION.country,
-        region: DEFOULT_REGION.region,
-        city: DEFOULT_REGION.city,
+        country: DEFAULT_REGION.country,
+        region: DEFAULT_REGION.region,
+        city: DEFAULT_REGION.city,
         street: value.street,
         confirmedStreet: value.confirmedStreet,
         house: value.house,
